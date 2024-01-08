@@ -1,12 +1,12 @@
-SRCS		= ft_printf.c ft_putunbr_fd.c
-
-HEAD		= ft_printf.h
+SRCS		= ft_printf.c ft_putunbr_fd.c ft_puthex_fd.c
 
 OBJS		= ${SRCS:.c=.o}
 
+HEAD		= ft_printf.h
+
 NAME		= libftprintf.a
 
-AR			= ar rc
+AR			= ar r
 
 CC			= cc
 
@@ -14,19 +14,19 @@ CFLAGS		= -Wall -Wextra -Werror
 
 RM			= rm -f
 
-LIBPATH		= libft
-
 .c.o:
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			cd ${LIBPATH} && make re
+			make -C libft re
+			cp libft/libft.a .
+			mv libft.a ${NAME}
 			${AR} ${NAME} ${OBJS}
 
 all:		${NAME}
 
 clean:
-			cd ${LIBPATH} && make fclean
+			make -C libft fclean
 			${RM} ${OBJS}
 
 fclean:		clean

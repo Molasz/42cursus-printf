@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:28:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/05 22:30:24 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/08 02:32:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ size_t	ft_strlen(char *s)
 	i = 0;
 	while (s[i])
 		i++;
-	return (i);	
+	return (i);
 }

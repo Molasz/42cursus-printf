@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/08 00:54:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/08 02:30:38 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ void	ft_puthex_fd(unsigned long nb, int fd, char *base)
 
 void	ft_puthexl_fd(unsigned long nb, int fd)
 {
-	char *base;
+	char	*base;
 
 	base = "0123456789abcdef";
 	ft_puthex_fd(nb, fd, base);
 }
 
-
 void	ft_puthexu_fd(unsigned long nb, int fd)
 {
-	char *base;
+	char	*base;
 
 	base = "0123456789ABCDEF";
 	ft_puthex_fd(nb, fd, base);
