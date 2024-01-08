@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/08 03:21:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:21:58 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	flags_check(char c, va_list args)
+void	args_check(char c, va_list args)
 {
 	if (c == 'c')
 		ft_putchar_fd(va_arg(args, int), 1);
@@ -32,6 +32,41 @@ static void	flags_check(char c, va_list args)
 		ft_putchar_fd('%', 1);
 }
 
+int	*flags_check(const char *s, int i, va_list args)
+{
+	static int flags[5];
+	int flag;
+	
+	//int	justify_width;
+	//int	justify_left;
+	//int	x_head;
+	//int	sign;
+	//int	flag;
+	flag = 0;
+	while (flag < 5)
+		flags[flag++] = 0;
+	while (flag)
+	{
+		if (s[i] == '-')
+			flags[2] = 1;
+		else if (s[i] == '0' || s[i] == '.')
+			flags[2] = 2;
+		else if (s[i] == '#')
+			flags[3] = 1;
+		else if (s[i] == ' ')
+			flags[4] = -1;
+		else if (s[i] == '+')
+			flags[4] = 1;
+		else if (s[i] >= '0' && s[i] <= '9')
+			flags[1] = next_number(s + i,);
+		else
+			flag = 0;
+		i++;
+	}
+	flags[0] = i;
+	return (flags);
+}
+
 int	ft_printf(const char *s, ...)
 {
 	va_list	args;
@@ -43,8 +78,8 @@ int	ft_printf(const char *s, ...)
 	{
 		if (s[i] == '%')
 		{
-			i++;
-			flags_check(s[i], args);
+			i = flags_check(s, i, args);
+			args_check(s[i], args);
 		}
 		else
 			ft_putchar_fd(s[i], 1);
