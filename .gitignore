@@ -1,5 +1,5 @@
+*.a
 *.o
-libft/*.o
-libft/libft.a
-libftprintf.a
 *.out
+*.swp
+.DS_Store
