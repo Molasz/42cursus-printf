@@ -2,5 +2,4 @@
 libft/*.o
 libft/libft.a
 libftprintf.a
-main.c
 *.out
