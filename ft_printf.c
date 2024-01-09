@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/09 00:21:58 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:24:24 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,41 +30,11 @@ void	args_check(char c, va_list args)
 		ft_puthexu_fd(va_arg(args, unsigned long), 1);
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
-}
-
-int	*flags_check(const char *s, int i, va_list args)
-{
-	static int flags[5];
-	int flag;
-	
-	//int	justify_width;
-	//int	justify_left;
-	//int	x_head;
-	//int	sign;
-	//int	flag;
-	flag = 0;
-	while (flag < 5)
-		flags[flag++] = 0;
-	while (flag)
+	else
 	{
-		if (s[i] == '-')
-			flags[2] = 1;
-		else if (s[i] == '0' || s[i] == '.')
-			flags[2] = 2;
-		else if (s[i] == '#')
-			flags[3] = 1;
-		else if (s[i] == ' ')
-			flags[4] = -1;
-		else if (s[i] == '+')
-			flags[4] = 1;
-		else if (s[i] >= '0' && s[i] <= '9')
-			flags[1] = next_number(s + i,);
-		else
-			flag = 0;
-		i++;
+		ft_putchar_fd('%', 1);
+		ft_putchar_fd(c, 1);
 	}
-	flags[0] = i;
-	return (flags);
 }
 
 int	ft_printf(const char *s, ...)
@@ -78,7 +48,7 @@ int	ft_printf(const char *s, ...)
 	{
 		if (s[i] == '%')
 		{
-			i = flags_check(s, i, args);
+			i++;
 			args_check(s[i], args);
 		}
 		else

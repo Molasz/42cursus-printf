@@ -17,12 +17,10 @@ RM			= rm -f
 .c.o:
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} 
 
-${NAME}:	libft ${OBJS}
+${NAME}:	${OBJS}
+			make -C libft
+			mv libft/libft.a ${NAME}
 			${AR} ${NAME} ${OBJS}
-
-libft:
-			make -c libft
-			cp libft/libft.a ${NAME}
 
 all:		${NAME}
 
