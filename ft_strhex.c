@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puthex_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strhex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/10 17:05:19 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:45:34 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*revstr(char *s)
 	return (s);
 }
 
-static int		hexlen(unsigned long nb)
+static int	hexlen(unsigned long nb)
 {
 	int	i;
 
@@ -62,17 +62,14 @@ static char	*strhex(unsigned long nb, char *base)
 	return (revstr(s));
 }
 
-char	*ft_strhex(unsigned long nb)
+char	*ft_strhex(unsigned long nb, int u)
 {
-	return (strhex(nb, "0123456789abcdef"));
-}
-
-char *ft_strHEX(unsigned long nb)
-{
+	if (u)
+		return (strhex(nb, "0123456789abcdef"));
 	return (strhex(nb, "0123456789ABCDEF"));
 }
 
 char	*ft_strp(void *p)
 {
-	return (ft_strhex((unsigned long)p));
+	return (ft_strhex((unsigned long)p, 0));
 }
