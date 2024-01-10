@@ -14,15 +14,15 @@ AR			= ar -rcs
 
 RM			= rm -f
 
+all:		${NAME}
+
 .c.o:
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o} 
+			${CC} ${CFLAGS} -c $< -o $@ 
 
 ${NAME}:	${OBJS}
 			make -C libft
 			mv libft/libft.a ${NAME}
 			${AR} ${NAME} ${OBJS}
-
-all:		${NAME}
 
 clean:
 			make -C libft fclean

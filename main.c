@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/08 23:52:10 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:50:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int	main(void)
 	int	num;
 
 	num = 42;
+	ft_putstr_fd(ft_strhex(num), 1);
+	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(ft_strHEX(num), 1);
+	ft_putchar_fd('\n', 1);
+	ft_putstr_fd(ft_strp(&num), 1);
+	/*
 	printf("Hello World!\n");
 	ft_printf("Hello World!\n");
 	printf("%i %d %u\n", 42, -42, 42);
@@ -33,5 +39,6 @@ int	main(void)
 	ft_printf("%#x|%#X\n", num, num);
 	printf("% i|%+i\n", num, num);
 	ft_printf("% i|%+i\n", num, num);
+	*/
 	return (0);
 }
