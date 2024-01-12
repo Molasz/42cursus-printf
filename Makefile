@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
+#    Updated: 2024/01/12 16:43:59 by molasz-a         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= libftprintf.a
 
 HEAD		= ft_printf.h
 
-SRCS		= ft_printf.c ft_putunbr_fd.c ft_puthex_fd.c
+SRCS		= ft_printf.c ft_strhex.c ft_uitoa.c checks.c 
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -10,14 +22,14 @@ CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
-AR			= ar -rcs
+AR			= ar rcs
 
 RM			= rm -f
 
 all:		${NAME}
 
 .c.o:
-			${CC} ${CFLAGS} -c $< -o $@ 
+			${CC} ${CFLAGS} -c $< 
 
 ${NAME}:	${OBJS}
 			make -C libft
@@ -25,7 +37,7 @@ ${NAME}:	${OBJS}
 			${AR} ${NAME} ${OBJS}
 
 clean:
-			make -C libft fclean
+			make -C libft clean
 			${RM} ${OBJS}
 
 fclean:		clean

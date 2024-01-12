@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/10 23:45:34 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:22:57 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ char	*ft_strhex(unsigned long nb, int u)
 
 char	*ft_strp(void *p)
 {
-	return (ft_strhex((unsigned long)p, 0));
+	return (ft_strhex((unsigned long)p, 1));
 }
