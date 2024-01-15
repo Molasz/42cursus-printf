@@ -6,70 +6,61 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/12 18:22:57 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/14 23:07:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*revstr(char *s)
-{
-	char	temp;
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(s);
-	while (i < len / 2)
-	{
-		temp = s[len - i - 1];
-		s[len - i - 1] = s[i];
-		s[i] = temp;
-		i++;
-	}
-	return (s);
-}
-
-static int	hexlen(unsigned long nb)
+static int	hexlen(unsigned long n)
 {
 	int	i;
 
-	i = 0;
-	while (nb > 16)
+	i = 1;
+	while (n > 16)
 	{
 		i++;
-		nb /= 16;
+		n /= 16;
 	}
 	return (i);
 }
 
-static char	*strhex(unsigned long nb, char *base)
+static char	*strhex(unsigned long n, char *base)
 {
 	char	*s;
-	int		i;
+	int		len;
 
-	i = 0;
-	s = ft_calloc(sizeof (char), hexlen(nb));
+	len = hexlen(n);
+	s = ft_calloc(sizeof (char), len + 1);
 	if (!s)
 		return (NULL);
-	while (nb > 16)
+	s[len] = '\0';
+	while (--len >= 0)
 	{
-		s[i++] = base[nb % 16];
-		nb /= 16;
+		s[len] = base[n % 16];
+		n /= 16;
 	}
-	s[i++] = base[nb % 16];
-	s[i] = '\0';
-	return (revstr(s));
+	return (s);
 }
 
-char	*ft_strhex(unsigned long nb, int u)
+char	*ft_strhex(unsigned long nb, int lower)
 {
-	if (u)
-		return (strhex(nb, "0123456789abcdef"));
-	return (strhex(nb, "0123456789ABCDEF"));
+	char	*s;
+
+	if (lower)
+		s = strhex(nb, "0123456789abcdef");
+	else
+		s = strhex(nb, "0123456789ABCDEF");
+	return (s);
 }
 
 char	*ft_strp(void *p)
 {
-	return (ft_strhex((unsigned long)p, 1));
+	char	*res;
+	char	*s;
+
+	s = ft_strhex((unsigned long)p, 1);
+	res = ft_strjoin("0x", s);
+	free(s);
+	return (res);
 }
