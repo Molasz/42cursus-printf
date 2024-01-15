@@ -1,5 +1,6 @@
 *.a
 *.o
+*.d
 *.out
 *.swp
 .DS_Store

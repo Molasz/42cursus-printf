@@ -1,16 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checks.c                                           :+:      :+:    :+:   */
+/*   ft_checks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 00:39:40 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/15 19:34:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+/*
+ * FLAGS[5]
+ * 0: Justify char	1:Left justify , 2:Left justify with 0
+ * 1: Number sign	1:'+' , 2:' '
+ * 2: 0x on hex
+ * 3: len min
+ * 4: len max
+ */
+char	*args_check(char *s, va_list args)
+{
+	char	*res;
+	int		*flags;
+	int		i;
+
+	i = 0;
+	flags = ft_calloc(sizeof (int), 5);
+	if (!flags)
+		return (NULL);
+	while (!ft_strrchr("cspdiuxX%", s[i]))
+	{
+		flags_check(s[i], flags);
+		if (ft_isdigit(s[i]))
+		{
+			i += width_check(&s[i], flags);
+			break ;
+		}
+		i++;
+	}
+	res = ft_identifiers_check(s[i], args, flags);
+	if (!res)
+		return (NULL);
+	free(flags);
+	return (res);
+}
 
 void	flags_check(char c, int *flags)
 {
@@ -44,39 +79,4 @@ int	width_check(char *c, int *flags)
 	while (ft_isdigit(c[i]))
 		i++;
 	return (i);
-}
-
-char	*identifiers_check(char c, va_list args, int *flags)
-{
-	char	*s;
-	char	v;
-	int		n;
-
-	s = NULL;
-	n = 0;
-	v = '%';
-	if (c == 'c' || c == '%')
-	{
-		if (c == 'c')
-			v = va_arg(args, int);
-		s = ft_substr(&v, 0, 1);
-	}
-	else if (c == 's')
-		s = ft_substr(va_arg(args, char*), 0, ft_strlen(s));
-	else if (c == 'd' || c == 'i')
-	{
-		n = va_arg(args, int);
-		s = ft_itoa(n);
-	}
-	else if (c == 'u')
-		s = ft_uitoa(va_arg(args, unsigned int));
-	else if (c == 'x' || c == 'X')
-		s = ft_strhex(va_arg(args, unsigned long), c == 'x');
-	else if (c == 'p')
-		s = ft_strp(va_arg(args, void *));
-
-	ft_hexprefix(c, s, flags[2]);
-	ft_add_sign(c , s, flags[1]);
-	ft_justify(s, flags[0], flags[3]);
-	return (s);
 }

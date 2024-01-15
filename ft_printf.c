@@ -6,43 +6,33 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 01:01:52 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/15 19:37:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-/*
- * FLAGS[5]
- * 0: Justify char	1:' ' , 2:'0'
- * 1: Number sign	1:'+' , 2:' '
- * 2: 0x on hex
- * 3: len min
- * 4: len max
- */
-static char	*args_check(char *s, va_list args)
+char *ft_reallocres(char *s, char *res, char *arg, int lasti, int i)
 {
-	char	*res;
-	int		*flags;
-	int		i;
+	char	*str;
+	char	*tmp;
+	char	*tmp2;
 
-	i = 0;
-	s++;
-	flags = ft_calloc(sizeof (int), 5);
-	while (!ft_strrchr("cspdiuxX%", s[i]))
-	{
-		flags_check(s[i], flags);
-		if (ft_isdigit(s[i]))
-		{
-			i += width_check(&s[i], flags);
-			break ;
-		}
-		i++;
-	}
-	res = identifiers_check(s[i], args, flags);
-	ft_addsign(s[i], res, flags[1]);
-	ft_justify(res, flags[0], flags[3]);
+	tmp = ft_substr(s, lasti, i - lasti - 1);
+	if (!tmp)
+		return (NULL);
+	tmp2 = ft_strjoin(res, tmp);
+	free(res);
+	free(tmp);
+	if (!tmp2)
+		return (NULL);
+	str = ft_strjoin(tmp2, arg);
+	free(tmp2);
+	if (ft_strlen(arg))
+		free(arg);
+	if (!str)
+		return (NULL);
+	return (str);
 }
 
 int	ft_printf(const char *s, ...)
@@ -50,40 +40,35 @@ int	ft_printf(const char *s, ...)
 	va_list	args;
 	char	*res;
 	char	*tmp;
-	char	*res_tmp;
-	int		last_i;
+	int		lasti;
 	int		i;
 
 	i = 0;
-	last_i = 0;
-	res = NULL;
+	lasti = 0;
+	res = ft_calloc(sizeof (char), 1);
+	if (!res)
+		return (-1);
 	va_start(args, s);
 	while (s[i])
 	{
-		if (s[i] == '%')
+		if (s[i++] == '%')
 		{
-			res_tmp = res;
-			tmp = ft_substr(s, last_i, last_i - i);
+			tmp = args_check(&((char *)s)[i], args);
 			if (!tmp)
 				return (0);
-			res = ft_strjoin(res_tmp, tmp);
+			res = ft_reallocres((char *)s, res, tmp, lasti, i);
 			if (!res)
 				return (0);
-			free(tmp);
-			free(res_tmp);
-			tmp = args_check(&((char *)s)[i], args);
-			while (!ft_strrchr("cspdiuxX%", s[i]))
+			while (!ft_strchr("cspdiuxX%", s[i]))
 				i++;
-			last_i = ++i;
-			res_tmp = res;
-			res = ft_strjoin(res_tmp, tmp);
-			free(tmp);
-			free(res_tmp);
+			lasti = ++i;
 		}
-		else
-			ft_putchar_fd(s[i], 1);
-		i++;
 	}
+	res = ft_reallocres((char *)s, res, "", lasti, i + 1);
+	if (!res)
+		return (-1);
 	ft_putstr_fd(res, 1);
-	return (ft_strlen(res));
+	i = ft_strlen(res);
+	free(res);
+	return (i);
 }

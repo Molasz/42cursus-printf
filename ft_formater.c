@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 01:01:23 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:49:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,24 @@ char	*ft_chrstrjoin(char c, char *s)
 	res[0] = c;
 	res[len - 1] = 0;
 	i = 0;
-	while (res[++i])
+	while (len > i)
+	{
+		i++;
 		res[i] = s[i - 1];
+	}
 	free(s);
 	return (res);
+}
+
+char	*ft_chrstr(char c)
+{
+	char	*s;
+
+	s = ft_calloc(sizeof (char), 2);
+	if (!s)
+		return (NULL);
+	s[0] = c;
+	return (s);
 }
 
 char	*ft_addsign(char c, char *s, int sign)
@@ -36,52 +50,44 @@ char	*ft_addsign(char c, char *s, int sign)
 	char	*res;
 
 	res = NULL;
-	if (sign && (c == 'd' || c == 'i' || c == 'p') && s[0] != '-' && s[0] != '0' )
-		return (ft_chrstrjoin(sign, res));
-	return (s);
-}
-
-char	*ft_justify(char *s, int c, int width)
-{
-	char	*res;
-	char	*tmp;
-	char	v;
-
-	res = NULL;
-	if (width)
+	if (sign && (c == 'd' || c == 'i' || c == 'p'))
 	{
-		v = ' ';
-		if (c == 2) //TODO only numbers
-			v = '0';
-		tmp = ft_calloc(sizeof(char), width + 1);
-		if (!tmp)
+		res = ft_chrstrjoin(sign, s);
+		if (!res)
 			return (NULL);
-		tmp[width] = 0;
-		while(width--)
-			tmp[width] = v;
-		if (!c)
-			res = ft_strjoin(tmp, s);
-		else if (c == 1)
-			res = ft_strjoin(s, tmp);
-		free(s);
 		return (res);
 	}
 	return (s);
 }
 
-char	*ft_hexprefix(char c, char *s, int prefix)
+//TODO justify with '0'
+char	*ft_justify(char *s, int justify, int width)
 {
 	char	*res;
+	char	*tmp;
+	char	v;
+	int		width_space;
 
-	if (prefix && s[0] == '0' && s[1] == '\0' && (c == 'x' || c == 'X'))
+	res = NULL;
+	if (width)
 	{
-		if (c == 'x')
-			res = ft_strjoin("0x", s);
+		v = ' ';
+		width_space = width - ft_strlen(s);
+		if (justify == 2)
+			v = '0';
+		tmp = ft_calloc(sizeof(char), width_space + 1);
+		if (!tmp)
+			return (NULL);
+		tmp[width_space] = 0;
+		while(width_space--)
+			tmp[width_space] = v;
+		if (justify != 1)
+			res = ft_strjoin(tmp, s);
 		else
-			res = ft_strjoin("0X", s);
+			res = ft_strjoin(s, tmp);
+		free(s);
 		if (!res)
 			return (NULL);
-		free(s);
 		return (res);
 	}
 	return (s);

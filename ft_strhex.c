@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/14 23:07:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:21:11 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,30 @@ static char	*strhex(unsigned long n, char *base)
 	return (s);
 }
 
-char	*ft_strhex(unsigned long nb, int lower)
+char	*ft_strhex(unsigned long nb, int lower, int prefix)
 {
+	char	*res;
 	char	*s;
 
 	if (lower)
 		s = strhex(nb, "0123456789abcdef");
 	else
 		s = strhex(nb, "0123456789ABCDEF");
+	if (prefix && nb != 0)
+	{
+		if (lower)
+			res = ft_strjoin("0x", s);
+		else
+			res = ft_strjoin("0X", s);
+		free(s);
+		if (!res)
+			return (NULL);
+		return (res);
+	}
 	return (s);
 }
 
 char	*ft_strp(void *p)
 {
-	char	*res;
-	char	*s;
-
-	s = ft_strhex((unsigned long)p, 1);
-	res = ft_strjoin("0x", s);
-	free(s);
-	return (res);
+	return (ft_strhex((unsigned long)p, 1, 1));
 }
