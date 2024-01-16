@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_formater.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 00:44:23 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:42:50 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,6 @@ char	*ft_chrstrjoin(char c, char *s)
 	return (res);
 }
 
-char	*ft_chrstr(char c)
-{
-	char	*s;
-
-	s = ft_calloc(sizeof (char), 2);
-	if (!s)
-		return (NULL);
-	s[0] = c;
-	return (s);
-}
-
 char	*ft_addsign(char c, char *s, int sign)
 {
 	char	*res;
@@ -60,35 +49,56 @@ char	*ft_addsign(char c, char *s, int sign)
 	return (s);
 }
 
-//TODO justify with '0'
-char	*ft_justify(char *s, int justify, int width)
+static char	*ft_justify_width(char c, char *s, int *flags)
+{
+	int		width_space;
+	char	v;
+	char	*tmp;
+	char	*res;
+
+	v = ' ';
+	width_space = flags[4] - ft_strlen(s);
+	if (flags[0] == 2 && ft_strchr("pdiuxX", c))
+		v = '0';
+	tmp = ft_calloc(sizeof(char), width_space + 1);
+	if (!tmp)
+		return (NULL);
+	tmp[width_space] = 0;
+	while (width_space--)
+		tmp[width_space] = v;
+	if (flags[0] != 1)
+		res = ft_strjoin(tmp, s);
+	else
+		res = ft_strjoin(s, tmp);
+	free(s);
+	if (!res)
+		return (NULL);
+	return (res);
+}
+
+static char	*ft_justify_precision(char c, char *s, int *flags)
 {
 	char	*res;
-	char	*tmp;
-	char	v;
-	int		width_space;
 
 	res = NULL;
-	if (width)
-	{
-		v = ' ';
-		width_space = width - ft_strlen(s);
-		if (justify == 2)
-			v = '0';
-		tmp = ft_calloc(sizeof(char), width_space + 1);
-		if (!tmp)
-			return (NULL);
-		tmp[width_space] = 0;
-		while (width_space--)
-			tmp[width_space] = v;
-		if (justify != 1)
-			res = ft_strjoin(tmp, s);
-		else
-			res = ft_strjoin(s, tmp);
-		free(s);
-		if (!res)
-			return (NULL);
-		return (res);
-	}
-	return (s);
+	(void)c;
+	(void)s;
+	(void)flags;
+	return (res);
+}
+
+char	*ft_justify(char c, char *s, int *flags)
+{
+	char	*res;
+
+	res = NULL;
+	if (flags[3] && flags[5])
+		res = ft_justify_precision(c, s, flags);
+	else if (flags[4])
+		res = ft_justify_width(c, s, flags);
+	else
+		return (s);
+	if (!res)
+		return (NULL);
+	return (res);
 }

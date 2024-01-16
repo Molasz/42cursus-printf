@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:54:53 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 13:47:45 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:43:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ char	*ft_strp(void *p);
 char	*args_check(char *s, va_list args);
 void	flags_check(char c, int *flags);
 int		width_check(char *c, int *nbr);
+
 char	*ft_identifiers_check(char c, va_list args, int *flags);
+char	*ft_chrstr(char c);
 
 char	*ft_chrstrjoin(char c, char *s);
-char	*ft_chrstr(char c);
 char	*ft_addsign(char c, char *s, int sign);
-char	*ft_justify(char *s, int justify, int width);
+char	*ft_justify(char c, char *s, int *flags);
 
 #endif

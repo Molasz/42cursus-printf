@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 01:33:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:52:30 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,11 @@ char	*ft_init_data(int *i, int *lasti)
 	return (res);
 }
 
-int	ft_movei(char c, int *i)
+int	ft_movei(char *s, int i)
 {
-	while (!ft_strchr("cspdiuxX%", c))
-		*i += 1;
-	*i += 1;
-	return (*i);
+	while (!ft_strchr("cspdiuxX%", s[i]))
+		i++;
+	return (++i);
 }
 
 int	ft_printf(const char *s, ...)
@@ -91,9 +90,8 @@ int	ft_printf(const char *s, ...)
 			res = ft_reallocres(&((char *)s)[lasti], res, tmp, i - lasti - 1);
 			if (!res)
 				return (0);
-			while (!ft_strchr("cspdiuxX%", s[i]))
-				i++;
-			lasti = ++i;
+			i = ft_movei((char *)s, i);
+			lasti = i;
 		}
 	}
 	return (ft_outres(&((char *)s)[lasti], res, i - lasti));

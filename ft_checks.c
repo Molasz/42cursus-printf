@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 19:34:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:38:42 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
  * FLAGS[5]
  * 0: Justify char	1:Left justify , 2:Left justify with 0
  * 1: Number sign	1:'+' , 2:' '
- * 2: 0x on hex
- * 3: len min
- * 4: len max
+ * 2: 0x on hex		1:'#'
+ * 3: Precision     1:'.'
+ * 4: len min
+ * 5: len max
  */
 char	*args_check(char *s, va_list args)
 {
@@ -27,7 +28,7 @@ char	*args_check(char *s, va_list args)
 	int		i;
 
 	i = 0;
-	flags = ft_calloc(sizeof (int), 5);
+	flags = ft_calloc(sizeof (int), 6);
 	if (!flags)
 		return (NULL);
 	while (!ft_strrchr("cspdiuxX%", s[i]))
@@ -56,27 +57,26 @@ void	flags_check(char c, int *flags)
 		else if (c == '0')
 			flags[0] = 2;
 	}
-	if (flags[1] != '+')
-	{
-		if (c == '+' || c == ' ')
-			flags[1] = c;
-	}
+	if (flags[1] != '+' && (c == '+' || c == ' '))
+		flags[1] = c;
 	if (c == '#')
 		flags[2] = 1;
+	else if (c == '.')
+		flags[3] = 1;
 }
 
-int	width_check(char *c, int *flags)
+int	width_check(char *s, int *flags)
 {
+	int	num;
 	int	i;
 
 	i = 0;
-	flags[3] = ft_atoi(c);
-	while (ft_isdigit(c[i]))
-		i++;
-	if (c[i] != '.')
-		return (i);
-	flags[4] = ft_atoi(c + 1);
-	while (ft_isdigit(c[i]))
+	num = ft_atoi(s);
+	if (flags[3])
+		flags[5] = num;
+	else
+		flags[4] = num;
+	while (ft_isdigit(s[i]))
 		i++;
 	return (i);
 }

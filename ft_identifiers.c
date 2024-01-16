@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_identifiers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 00:59:01 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:42:56 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+char	*ft_chrstr(char c)
+{
+	char	*s;
+
+	s = ft_calloc(sizeof (char), 2);
+	if (!s)
+		return (NULL);
+	s[0] = c;
+	return (s);
+}
 
 static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 {
@@ -65,7 +76,8 @@ char	*ft_identifiers_check(char c, va_list args, int *flags)
 		if (!res)
 			return (NULL);
 	}
-	res = ft_justify(res, flags[0], flags[3]);
+	if (c != '%')
+		res = ft_justify(c, res, flags);
 	if (!res)
 		return (NULL);
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 00:42:53 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:41:29 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ int	main(void)
 	printf("% i|%+i\n", num, num);
 	ft_printf("% i|%+i\n", num, num);
 	
-	ft = ft_printf("%c %c\n", 1, 0);
-	expected = printf("%c %c\n", 1, 0);
+	ft = ft_printf("Hello%cworld\n", 0);
+	expected = printf("Hello%cworld\n", 0);
 	
 	printf("ft_printf:%d printf:%d\n", ft, expected);
+
 	return (0);
 }
