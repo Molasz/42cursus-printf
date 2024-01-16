@@ -6,19 +6,19 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 19:37:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 01:33:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char *ft_reallocres(char *s, char *res, char *arg, int lasti, int i)
+char	*ft_reallocres(char *s, char *res, char *arg, int i)
 {
 	char	*str;
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = ft_substr(s, lasti, i - lasti - 1);
+	tmp = ft_substr(s, 0, i);
 	if (!tmp)
 		return (NULL);
 	tmp2 = ft_strjoin(res, tmp);
@@ -35,6 +35,40 @@ char *ft_reallocres(char *s, char *res, char *arg, int lasti, int i)
 	return (str);
 }
 
+int	ft_outres(char *s, char *res, int i)
+{
+	char	*str;
+	int		len;
+
+	str = ft_reallocres(s, res, "", i);
+	if (!str)
+		return (-1);
+	ft_putstr_fd(str, 1);
+	len = ft_strlen(str);
+	free(str);
+	return (len);
+}
+
+char	*ft_init_data(int *i, int *lasti)
+{
+	char	*res;
+
+	*i = 0;
+	*lasti = 0;
+	res = ft_calloc(sizeof (char), 1);
+	if (!res)
+		return (NULL);
+	return (res);
+}
+
+int	ft_movei(char c, int *i)
+{
+	while (!ft_strchr("cspdiuxX%", c))
+		*i += 1;
+	*i += 1;
+	return (*i);
+}
+
 int	ft_printf(const char *s, ...)
 {
 	va_list	args;
@@ -43,12 +77,10 @@ int	ft_printf(const char *s, ...)
 	int		lasti;
 	int		i;
 
-	i = 0;
-	lasti = 0;
-	res = ft_calloc(sizeof (char), 1);
-	if (!res)
-		return (-1);
 	va_start(args, s);
+	res = ft_init_data(&i, &lasti);
+	if (!res)
+		return (0);
 	while (s[i])
 	{
 		if (s[i++] == '%')
@@ -56,7 +88,7 @@ int	ft_printf(const char *s, ...)
 			tmp = args_check(&((char *)s)[i], args);
 			if (!tmp)
 				return (0);
-			res = ft_reallocres((char *)s, res, tmp, lasti, i);
+			res = ft_reallocres(&((char *)s)[lasti], res, tmp, i - lasti - 1);
 			if (!res)
 				return (0);
 			while (!ft_strchr("cspdiuxX%", s[i]))
@@ -64,11 +96,5 @@ int	ft_printf(const char *s, ...)
 			lasti = ++i;
 		}
 	}
-	res = ft_reallocres((char *)s, res, "", lasti, i + 1);
-	if (!res)
-		return (-1);
-	ft_putstr_fd(res, 1);
-	i = ft_strlen(res);
-	free(res);
-	return (i);
+	return (ft_outres(&((char *)s)[lasti], res, i - lasti));
 }

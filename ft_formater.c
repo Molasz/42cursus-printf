@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 18:49:01 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 00:44:23 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_justify(char *s, int justify, int width)
 		if (!tmp)
 			return (NULL);
 		tmp[width_space] = 0;
-		while(width_space--)
+		while (width_space--)
 			tmp[width_space] = v;
 		if (justify != 1)
 			res = ft_strjoin(tmp, s);
