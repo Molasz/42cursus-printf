@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/15 12:21:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:10:53 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	hexlen(unsigned long n)
 	int	i;
 
 	i = 1;
-	while (n > 16)
+	while (n >= 16)
 	{
 		i++;
 		n /= 16;
@@ -43,7 +43,7 @@ static char	*strhex(unsigned long n, char *base)
 	return (s);
 }
 
-char	*ft_strhex(unsigned long nb, int lower, int prefix)
+char	*ft_strhex(unsigned long nb, int lower, int prefix, int pointer)
 {
 	char	*res;
 	char	*s;
@@ -52,7 +52,7 @@ char	*ft_strhex(unsigned long nb, int lower, int prefix)
 		s = strhex(nb, "0123456789abcdef");
 	else
 		s = strhex(nb, "0123456789ABCDEF");
-	if (prefix && nb != 0)
+	if (prefix && (nb != 0 || pointer))
 	{
 		if (lower)
 			res = ft_strjoin("0x", s);
@@ -68,5 +68,5 @@ char	*ft_strhex(unsigned long nb, int lower, int prefix)
 
 char	*ft_strp(void *p)
 {
-	return (ft_strhex((unsigned long)p, 1, 1));
+	return (ft_strhex((unsigned long)p, 1, 1, 1));
 }

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 12:42:56 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:18:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 	else if (c == 'u')
 		res = ft_uitoa(va_arg(args, unsigned int));
 	else if (c == 'x' || c == 'X')
-		res = ft_strhex(va_arg(args, unsigned int), c == 'x', f[2]);
+		res = ft_strhex(va_arg(args, unsigned int), c == 'x', f[2], 0);
 	else if (c == 'p')
 		res = ft_strp(va_arg(args, void *));
 	return (res);
@@ -44,17 +44,27 @@ static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 
 static char	*ft_identifiers_check_chars(char c, va_list args)
 {
+	char	chr;
 	char	*res;
 
 	res = NULL;
 	if (c == 'c')
-		res = ft_chrstr(va_arg(args, int));
+	{
+		chr = va_arg(args, int);
+		if (chr)
+			res = ft_chrstr(chr);
+		else
+			res = ft_substr("(null)", 0, 6);
+	}
 	else if (c == '%')
 		res = ft_chrstr('%');
 	else if (c == 's')
 	{
 		res = va_arg(args, char *);
-		res = ft_substr(res, 0, ft_strlen(res));
+		if (!res)
+			res = ft_substr("(null)", 0, 6);
+		else
+			res = ft_substr(res, 0, ft_strlen(res));
 	}
 	return (res);
 }
