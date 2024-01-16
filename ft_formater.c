@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 12:42:50 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 18:35:27 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_chrstrjoin(char c, char *s)
+static char	*ft_chrstrjoin(char c, char *s)
 {
 	char	*res;
 	int		len;

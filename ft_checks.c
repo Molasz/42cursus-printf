@@ -6,49 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 12:38:42 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 18:45:39 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-/*
- * FLAGS[5]
- * 0: Justify char	1:Left justify , 2:Left justify with 0
- * 1: Number sign	1:'+' , 2:' '
- * 2: 0x on hex		1:'#'
- * 3: Precision     1:'.'
- * 4: len min
- * 5: len max
- */
-char	*args_check(char *s, va_list args)
-{
-	char	*res;
-	int		*flags;
-	int		i;
-
-	i = 0;
-	flags = ft_calloc(sizeof (int), 6);
-	if (!flags)
-		return (NULL);
-	while (!ft_strrchr("cspdiuxX%", s[i]))
-	{
-		flags_check(s[i], flags);
-		if (ft_isdigit(s[i]))
-		{
-			i += width_check(&s[i], flags);
-			break ;
-		}
-		i++;
-	}
-	res = ft_identifiers_check(s[i], args, flags);
-	if (!res)
-		return (NULL);
-	free(flags);
-	return (res);
-}
-
-void	flags_check(char c, int *flags)
+static void	ft_flags_check(char c, int *flags)
 {
 	if (flags[0] != 1)
 	{
@@ -65,7 +29,7 @@ void	flags_check(char c, int *flags)
 		flags[3] = 1;
 }
 
-int	width_check(char *s, int *flags)
+static int	ft_width_check(char *s, int *flags)
 {
 	int	num;
 	int	i;
@@ -78,5 +42,38 @@ int	width_check(char *s, int *flags)
 		flags[4] = num;
 	while (ft_isdigit(s[i]))
 		i++;
+	return (i);
+}
+
+/*
+ * FLAGS[5]
+ * 0: Justify char	1:Left justify , 2:Left justify with 0
+ * 1: Number sign	1:'+' , 2:' '
+ * 2: 0x on hex		1:'#'
+ * 3: Precision     1:'.'
+ * 4: len min
+ * 5: len max
+ */
+int	ft_check_args(char *s, va_list args)
+{
+	int		*flags;
+	int		i;
+
+	i = 0;
+	flags = ft_calloc(sizeof (int), 6);
+	if (!flags)
+		return (-1);
+	while (!ft_strrchr("cspdiuxX%", s[i]))
+	{
+		ft_flags_check(s[i], flags);
+		if (ft_isdigit(s[i]))
+		{
+			i += ft_width_check(&s[i], flags);
+			break ;
+		}
+		i++;
+	}
+	i = ft_check_identifiers(s[i], args, flags);
+	free(flags);
 	return (i);
 }

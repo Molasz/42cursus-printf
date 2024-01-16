@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 17:18:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/16 19:03:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_chrstr(char c)
+static char	*ft_chrstr(char c)
 {
 	char	*s;
 
@@ -45,6 +45,7 @@ static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 static char	*ft_identifiers_check_chars(char c, va_list args)
 {
 	char	chr;
+	char	*str;
 	char	*res;
 
 	res = NULL;
@@ -60,16 +61,16 @@ static char	*ft_identifiers_check_chars(char c, va_list args)
 		res = ft_chrstr('%');
 	else if (c == 's')
 	{
-		res = va_arg(args, char *);
-		if (!res)
-			res = ft_substr("(null)", 0, 6);
+		str = va_arg(args, char *);
+		if (str)
+			res = ft_substr(str, 0, ft_strlen(str));
 		else
-			res = ft_substr(res, 0, ft_strlen(res));
+			res = ft_substr("(null)", 0, 6);
 	}
 	return (res);
 }
 
-char	*ft_identifiers_check(char c, va_list args, int *flags)
+int	ft_check_identifiers(char c, va_list args, int *flags)
 {
 	char	*res;
 	int		num;
@@ -79,16 +80,19 @@ char	*ft_identifiers_check(char c, va_list args, int *flags)
 	if (!res)
 		res = ft_identifiers_check_chars(c, args);
 	if (!res)
-		return (NULL);
+		return (-1);
 	if (num >= 0)
 	{
 		res = ft_addsign(c, res, flags[1]);
 		if (!res)
-			return (NULL);
+			return (-1);
 	}
 	if (c != '%')
 		res = ft_justify(c, res, flags);
 	if (!res)
-		return (NULL);
-	return (res);
+		return (-1);
+	ft_putstr_fd(res, 1);
+	num = ft_strlen(res);
+	free(res);
+	return (num);
 }
