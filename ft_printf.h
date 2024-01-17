@@ -26,9 +26,9 @@ char	*ft_strp(void *p);
 
 int		ft_check_args(char *s, va_list args);
 int		ft_check_identifiers(char c, va_list args, int *flags);
-char	*ft_addsign(char c, char *s, int sign);
-char	*ft_justify(char c, char *s, int *flags);
+char	*ft_format(char c, char *s, int *flags, int num);
 
+char	*ft_chrstrjoin(char c, char *s);
 char	*ft_chrstr(char c);
 
 #endif

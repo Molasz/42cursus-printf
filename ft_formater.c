@@ -12,29 +12,7 @@
 
 #include "ft_printf.h"
 
-static char	*ft_chrstrjoin(char c, char *s)
-{
-	char	*res;
-	int		len;
-	int		i;
-
-	len = ft_strlen(s);
-	res = ft_calloc(sizeof(char), len + 2);
-	if (!res)
-		return (NULL);
-	res[0] = c;
-	res[len - 1] = 0;
-	i = 0;
-	while (len > i)
-	{
-		i++;
-		res[i] = s[i - 1];
-	}
-	free(s);
-	return (res);
-}
-
-char	*ft_addsign(char c, char *s, int sign)
+static char	*ft_addsign(char c, char *s, int sign)
 {
 	char	*res;
 
@@ -49,7 +27,7 @@ char	*ft_addsign(char c, char *s, int sign)
 	return (s);
 }
 
-static char	*ft_justify_width(char c, char *s, int justify, int minlen)
+static char	*ft_justify(char c, char *s, int justify, int minlen)
 {
 	int		width_space;
 	char	v;
@@ -76,25 +54,39 @@ static char	*ft_justify_width(char c, char *s, int justify, int minlen)
 	return (res);
 }
 
-static char	*ft_justify_precision(char *s, int max)
+static char	*ft_precision(char c, char *s, int precision)
 {
+	size_t	len;
 	char	*res;
 
-	res = ft_substr(s, 0, max);
-	free(s);
+	res = s;
+	len = ft_strlen(s);
+	if (c == 's' && len > (size_t)precision)
+	{
+		res = ft_substr(s, 0, precision);
+		free(s);
+	}
+	if (ft_strchr("pdiuxX", c) && len < (size_t)precision)
+		res = ft_justify(c, s, 2, precision);
 	return (res);
 }
 
-char	*ft_justify(char c, char *s, int *flags)
+char	*ft_format(char c, char *s, int *flags, int num)
 {
 	char	*res;
 
 	res = s;
-	if ((flags[3] && c == 's') && flags[5] < (int)ft_strlen(res))
-		res = ft_justify_precision(res, flags[5]);
+	if (flags[3] && flags[5])
+		res = ft_precision(c, res, flags[5]);
 	if (!res)
 		return (NULL);
-	if (flags[4] > (int)ft_strlen(res))
-		res = ft_justify_width(c, res, flags[0], flags[4]);
+	if (num >= 0)
+	{
+		res = ft_addsign(c, res, flags[1]);
+		if (!res)
+			return (NULL);
+	}
+	if ((size_t)flags[4] > ft_strlen(res))
+		res = ft_justify(c, res, flags[0], flags[4]);
 	return (res);
 }

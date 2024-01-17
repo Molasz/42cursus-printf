@@ -22,6 +22,7 @@ SRCS		= ft_printf.c \
 			  ft_identifiers.c \
 			  ft_strhex.c \
 			  ft_uitoa.c \
+			  ft_utils.c
 
 OBJS		= ${SRCS:.c=.o}
 

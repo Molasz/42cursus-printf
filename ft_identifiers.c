@@ -12,17 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*ft_chrstr(char c)
-{
-	char	*s;
-
-	s = ft_calloc(sizeof (char), 2);
-	if (!s)
-		return (NULL);
-	s[0] = c;
-	return (s);
-}
-
 static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 {
 	char	*res;
@@ -86,15 +75,9 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 		extra_len++;
 	}
 	if (flags[3] || flags[4] || flags[5])
-		res = ft_justify(c, res, flags);
+		res = ft_format(c, res, flags, num);
 	if (!res)
 		return (-1);
-	if (num >= 0)
-	{
-		res = ft_addsign(c, res, flags[1]);
-		if (!res)
-			return (-1);
-	}
 	num = ft_strlen(res);
 	if (write(1, res, num) < 0)
 	{
