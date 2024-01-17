@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/17 14:53:34 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/17 23:20:56 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ RM			= rm -f
 all:		${NAME}
 
 %.o:		%.c
-				${CC} ${CFLAGS} -c $< -MMD -MP
+				${CC} ${CFLAGS} -c $< -MMD
 
 ${NAME}:	${OBJS} ${HEAD} ${MAKE}
 				make -C libft

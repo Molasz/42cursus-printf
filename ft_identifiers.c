@@ -79,7 +79,10 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 	if (c == 'c' && !ft_strlen(res))
 	{
 		if (write(1, res, 1) < 0)
+		{
+			free(res);
 			return (-1);
+		}
 		extra_len++;
 	}
 	if (flags[3] || flags[4] || flags[5])
@@ -94,7 +97,10 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 	}
 	num = ft_strlen(res);
 	if (write(1, res, num) < 0)
+	{
+		free(res);
 		return (-1);
+	}
 	free(res);
 	return (num + extra_len);
 }
