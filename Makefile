@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/15 13:02:32 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/17 14:53:34 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,20 +37,22 @@ RM			= rm -f
 
 all:		${NAME}
 
-.c.o:
-			${CC} ${CFLAGS} -c $< -MMD -MP
+%.o:		%.c
+				${CC} ${CFLAGS} -c $< -MMD -MP
 
 ${NAME}:	${OBJS} ${HEAD} ${MAKE}
-			make -C libft
-			mv libft/libft.a ${NAME}
-			${AR} ${NAME} ${OBJS}
+				make -C libft
+				mv libft/libft.a ${NAME}
+				${AR} ${NAME} ${OBJS}
+
+bonus:		${NAME}
 
 clean:
 			make -C libft clean
-			${RM} ${OBJS} ${DEPS}
+				${RM} ${OBJS} ${DEPS}
 
 fclean:		clean
-			${RM} ${NAME}
+				${RM} ${NAME}
 
 re:			fclean all
 

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 01:03:56 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:12:54 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,40 +76,25 @@ static char	*ft_justify_width(char c, char *s, int justify, int minlen)
 	return (res);
 }
 
-static char	*ft_justify_precision(char c, char *s, int *flags)
+static char	*ft_justify_precision(char *s, int max)
 {
-	int		len;
 	char	*res;
 
-	len = (int)ft_strlen(s);
-	if (len > flags[5])
-	{
-		res = ft_substr(s, 0, flags[5]);
-		free(s);
-		if (!res)
-			return (NULL);
-		return (res);
-	}
-	else if (len < flags[4])
-	{
-		flags[0] = 2;
-		return (ft_justify_width(c, s, flags[0], flags[4]));
-	}
-	return (s);
+	res = ft_substr(s, 0, max);
+	free(s);
+	return (res);
 }
 
 char	*ft_justify(char c, char *s, int *flags)
 {
 	char	*res;
 
-	res = NULL;
-	if (flags[3] && flags[5])
-		res = ft_justify_precision(c, s, flags);
-	else if (flags[4])
-		res = ft_justify_width(c, s, flags[0], flags[4]);
-	else
-		return (s);
+	res = s;
+	if ((flags[3] && c == 's') && flags[5] < (int)ft_strlen(res))
+		res = ft_justify_precision(res, flags[5]);
 	if (!res)
 		return (NULL);
+	if (flags[4] > (int)ft_strlen(res))
+		res = ft_justify_width(c, res, flags[0], flags[4]);
 	return (res);
 }

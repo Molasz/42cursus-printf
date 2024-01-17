@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 13:27:14 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:00:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_chrstr(char c)
+char	*ft_chrstr(char c)
 {
 	char	*s;
 
@@ -82,16 +82,16 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 			return (-1);
 		extra_len++;
 	}
+	if (flags[3] || flags[4] || flags[5])
+		res = ft_justify(c, res, flags);
+	if (!res)
+		return (-1);
 	if (num >= 0)
 	{
 		res = ft_addsign(c, res, flags[1]);
 		if (!res)
 			return (-1);
 	}
-	if (c != '%')
-		res = ft_justify(c, res, flags);
-	if (!res)
-		return (-1);
 	num = ft_strlen(res);
 	if (write(1, res, num) < 0)
 		return (-1);
