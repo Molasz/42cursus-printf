@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 18:45:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/17 01:02:03 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ft_width_check(char *s, int *flags)
 		flags[4] = num;
 	while (ft_isdigit(s[i]))
 		i++;
-	return (i);
+	return (i - 1);
 }
 
 /*
@@ -67,10 +67,7 @@ int	ft_check_args(char *s, va_list args)
 	{
 		ft_flags_check(s[i], flags);
 		if (ft_isdigit(s[i]))
-		{
 			i += ft_width_check(&s[i], flags);
-			break ;
-		}
 		i++;
 	}
 	i = ft_check_identifiers(s[i], args, flags);
