@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 19:03:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:27:14 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,12 @@ static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
 
 static char	*ft_identifiers_check_chars(char c, va_list args)
 {
-	char	chr;
 	char	*str;
 	char	*res;
 
 	res = NULL;
 	if (c == 'c')
-	{
-		chr = va_arg(args, int);
-		if (chr)
-			res = ft_chrstr(chr);
-		else
-			res = ft_substr("(null)", 0, 6);
-	}
+		res = ft_chrstr(va_arg(args, int));
 	else if (c == '%')
 		res = ft_chrstr('%');
 	else if (c == 's')
@@ -73,14 +66,22 @@ static char	*ft_identifiers_check_chars(char c, va_list args)
 int	ft_check_identifiers(char c, va_list args, int *flags)
 {
 	char	*res;
+	int		extra_len;
 	int		num;
 
 	num = -1;
+	extra_len = 0;
 	res = ft_identifiers_check_numbers(c, args, &num, flags);
 	if (!res)
 		res = ft_identifiers_check_chars(c, args);
 	if (!res)
 		return (-1);
+	if (c == 'c' && !ft_strlen(res))
+	{
+		if (write(1, res, 1) < 0)
+			return (-1);
+		extra_len++;
+	}
 	if (num >= 0)
 	{
 		res = ft_addsign(c, res, flags[1]);
@@ -91,8 +92,9 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 		res = ft_justify(c, res, flags);
 	if (!res)
 		return (-1);
-	ft_putstr_fd(res, 1);
 	num = ft_strlen(res);
+	if (write(1, res, num) < 0)
+		return (-1);
 	free(res);
-	return (num);
+	return (num + extra_len);
 }

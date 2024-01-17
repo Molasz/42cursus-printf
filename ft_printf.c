@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 23:25:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:28:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ int	ft_printf(const char *s, ...)
 		{
 			tmplen = ft_percent(&i, (char *)s, args);
 			if (tmplen < 0)
-				return (0);
+				return (-1);
 			len += tmplen;
 		}
 		else
 		{
-			ft_putchar_fd(s[i], 1);
+			if (write(1, &s[i], 1) < 0)
+				return (-1);
 			len++;
 		}
 	}
