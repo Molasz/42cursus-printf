@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 17:13:54 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:58:43 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(void)
 	ft_printi("%x\n", 0);
 
 	ft_printp("%p\n", &num);
+	ft_printp("%p\n", "");
 	ft_printp("%p\n", NULL);
 
 	ft_printf("\n\n\n   >>>   BONUS   <<<\n\n");

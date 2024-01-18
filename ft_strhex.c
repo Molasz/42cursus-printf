@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:44:38 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/16 13:10:53 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:00:44 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*ft_strhex(unsigned long nb, int lower, int prefix, int pointer)
 		s = strhex(nb, "0123456789abcdef");
 	else
 		s = strhex(nb, "0123456789ABCDEF");
+	if (!s)
+		return (NULL);
 	if (prefix && (nb != 0 || pointer))
 	{
 		if (lower)

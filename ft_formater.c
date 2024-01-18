@@ -6,18 +6,20 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 23:37:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 17:12:54 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:55:36 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_addsign(char c, char *s, int sign)
+static char	*ft_addsign(char *s, int sign, int num)
 {
 	char	*res;
 
 	res = NULL;
-	if (sign && (c == 'd' || c == 'i' || c == 'p'))
+	if (num < 0)
+		sign = '-';
+	if (sign)
 	{
 		res = ft_chrstrjoin(sign, s);
 		if (!res)
@@ -80,13 +82,11 @@ char	*ft_format(char c, char *s, int *flags, int num)
 		res = ft_precision(c, res, flags[5]);
 	if (!res)
 		return (NULL);
-	if (num >= 0)
-	{
-		res = ft_addsign(c, res, flags[1]);
-		if (!res)
-			return (NULL);
-	}
 	if ((size_t)flags[4] > ft_strlen(res))
 		res = ft_justify(c, res, flags[0], flags[4]);
+	if (!res)
+		return (NULL);
+	if (ft_strchr("dip", c))
+		res = ft_addsign(res, flags[1], num);
 	return (res);
 }
