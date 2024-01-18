@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/18 12:13:16 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/01/18 15:49:31 by molasz-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 char	*ft_chrstr(char c)
@@ -15,20 +27,23 @@ char	*ft_chrstrjoin(char c, char *s)
 {
 	char	*res;
 	int		len;
-	int		i;
 
 	len = ft_strlen(s);
 	res = ft_calloc(sizeof(char), len + 2);
 	if (!res)
-		return (NULL);
-	res[0] = c;
-	res[len - 1] = 0;
-	i = 0;
-	while (len > i)
 	{
-		i++;
-		res[i] = s[i - 1];
+		free(s);
+		return (NULL);
 	}
+	res[0] = c;
+	ft_strlcpy(res + 1, s, len + 1);
 	free(s);
 	return (res);
+}
+
+unsigned int	ft_abs(int n)
+{
+	if (n < 0)
+		return (-n);
+	return (n);
 }

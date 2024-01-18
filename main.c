@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/18 11:58:43 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:42:40 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	main(void)
 	int	num;
 
 	num = 42;
+	ft_printi("%d\n", -10);
+/*
 	ft_printf("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!\n");
  	ft_print("%%\n");
@@ -149,6 +151,6 @@ int	main(void)
 	ft_prints("%.0s\n", "hello");
 	ft_prints("%5s\n", "goes over");
 	ft_prints("%7.5s\n", "bombastic");
-
+*/	
 	return (0);
 }

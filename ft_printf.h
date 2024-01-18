@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:54:53 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 15:05:55 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:35:21 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@
 
 int		ft_printf(const char *s, ...);
 
-char	*ft_uitoa(unsigned int n);
-char	*ft_strhex(unsigned long n, int lower, int prefix, int pointer);
-char	*ft_strp(void *p);
+char			*ft_uitoa(unsigned int n);
+char			*ft_strhex(unsigned long n, int lower);
+char			*ft_strp(void *p);
 
-int		ft_check_args(char *s, va_list args);
-int		ft_check_identifiers(char c, va_list args, int *flags);
-char	*ft_format(char c, char *s, int *flags, int num);
+int				ft_check_args(char *s, va_list args);
+int				ft_check_identifiers(char c, va_list args, int *flags);
+char			*ft_format(char c, char *s, int *flags, int num);
 
-char	*ft_chrstrjoin(char c, char *s);
-char	*ft_chrstr(char c);
+char			*ft_chrstrjoin(char c, char *s);
+char			*ft_chrstr(char c);
+unsigned int	ft_abs(int n);
 
 #endif

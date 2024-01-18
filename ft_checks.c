@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 01:02:03 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:16:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	ft_check_args(char *s, va_list args)
 	flags = ft_calloc(sizeof (int), 6);
 	if (!flags)
 		return (-1);
+	flags[4] = -1;
+	flags[5] = -1;
 	while (!ft_strrchr("cspdiuxX%", s[i]))
 	{
 		ft_flags_check(s[i], flags);

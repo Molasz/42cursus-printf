@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/17 23:20:56 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/18 14:49:39 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ MAKE		= Makefile
 
 SRCS		= ft_printf.c \
 			  ft_checks.c \
-			  ft_formater.c \
+			  ft_format.c \
 			  ft_identifiers.c \
 			  ft_strhex.c \
 			  ft_uitoa.c \
@@ -46,7 +46,7 @@ ${NAME}:	${OBJS} ${HEAD} ${MAKE}
 				mv libft/libft.a ${NAME}
 				${AR} ${NAME} ${OBJS}
 
-bonus:		${NAME}
+#bonus:		${NAME}
 
 clean:
 			make -C libft clean

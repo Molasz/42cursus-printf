@@ -6,26 +6,31 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:52:11 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 17:00:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:05:37 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_identifiers_check_numbers(char c, va_list args, int *n, int *f)
+static char	*ft_identifiers_check_numbers(char c, va_list args, int *n)
 {
-	char	*res;
+	unsigned int	p;
+	char			*res;
 
 	res = NULL;
 	if (c == 'd' || c == 'i')
 	{
 		*n = va_arg(args, int);
-		res = ft_itoa(*n);
+		res = ft_uitoa(ft_abs(*n));
 	}
 	else if (c == 'u')
 		res = ft_uitoa(va_arg(args, unsigned int));
 	else if (c == 'x' || c == 'X')
-		res = ft_strhex(va_arg(args, unsigned int), c == 'x', f[2], 0);
+	{
+		p = va_arg(args, unsigned int);
+		*n = p > 0;
+		res = ft_strhex(p, c == 'x');
+	}
 	else if (c == 'p')
 		res = ft_strp(va_arg(args, void *));
 	return (res);
@@ -60,7 +65,7 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 
 	num = -1;
 	extra_len = 0;
-	res = ft_identifiers_check_numbers(c, args, &num, flags);
+	res = ft_identifiers_check_numbers(c, args, &num);
 	if (!res)
 		res = ft_identifiers_check_chars(c, args);
 	if (!res)
@@ -74,7 +79,7 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 		}
 		extra_len++;
 	}
-	if (flags[3] || flags[4] || flags[5])
+	if (flags[3] || flags[4] != -1 || flags[5] != -1 || num != 0)
 		res = ft_format(c, res, flags, num);
 	if (!res)
 		return (-1);
