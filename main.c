@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/18 15:42:40 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:19:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	main(void)
 	int	num;
 
 	num = 42;
-	ft_printi("%d\n", -10);
-/*
 	ft_printf("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!\n");
  	ft_print("%%\n");
@@ -103,7 +101,7 @@ int	main(void)
 	ft_prints("%s\n", NULL);
 
 	ft_printi("%i\n", 42);
-	ft_printi("%d\n", -42);
+	ft_printi("%d\n", -6);
 	ft_printi("%d\n", 2147483647);
 	ft_printi("%d\n", -2147483648);
 	ft_printi("%i\n", 0);
@@ -144,13 +142,18 @@ int	main(void)
 	ft_printi("%#20.5x\n", 42);
 	ft_printi("%-#5x\n", 42);
 
+	ft_printp("%20p\n", &num);
+	ft_printp("%25.20p\n", &num);
+
 	ft_printc("%5c\n", 'A');
 	ft_printc("%3c\n", 0);
+	ft_printc("%015c\n", 'c');
 
 	ft_prints("%.s\n", NULL);
 	ft_prints("%.0s\n", "hello");
 	ft_prints("%5s\n", "goes over");
 	ft_prints("%7.5s\n", "bombastic");
-*/	
+
+	ft_printi("%015.10d", -50);
 	return (0);
 }
