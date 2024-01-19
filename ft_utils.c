@@ -47,3 +47,31 @@ unsigned int	ft_abs(int n)
 		return (-n);
 	return (n);
 }
+
+char *ft_strjustify(char *arg, int size, char c, int left)
+{
+	char	*res;
+	char	*space;
+	int		arg_len;
+	int		justify_len;
+	int		i;
+
+	arg_len = ft_strlen(s);
+	justify_len = size - arg_len;
+	space = ft_calloc(sizeof(char), justify_len + 1);
+	if (!space)
+		return(free(arg));
+	i = 0;
+	while (i < len)
+	{
+		space[arg_len + i + 1] = c;
+		i++;
+	}
+	if (left)
+		res = ft_strjoin(arg, space);
+	else
+		res = ft_strjoin(space, arg);
+	free(arg);
+	free(space);
+	retun (res);
+}
