@@ -48,30 +48,26 @@ unsigned int	ft_abs(int n)
 	return (n);
 }
 
-char *ft_strjustify(char *arg, int size, char c, int left)
+int	ft_putjustify(int size, int zero)
 {
-	char	*res;
-	char	*space;
-	int		arg_len;
-	int		justify_len;
+	char	c;
 	int		i;
 
-	arg_len = ft_strlen(s);
-	justify_len = size - arg_len;
-	space = ft_calloc(sizeof(char), justify_len + 1);
-	if (!space)
-		return(free(arg));
 	i = 0;
-	while (i < len)
+	c = ' ';
+	if (zero == 2)
+		c = '0';
+	while (i < size)
 	{
-		space[arg_len + i + 1] = c;
+		if (write(1, &c, 1) < 0)
+			return (-1);
 		i++;
 	}
-	if (left)
-		res = ft_strjoin(arg, space);
-	else
-		res = ft_strjoin(space, arg);
-	free(arg);
-	free(space);
-	retun (res);
+	return (size);
+}
+
+int	ft_free(void *p)
+{
+	free(p);
+	return (-1);
 }

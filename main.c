@@ -85,7 +85,10 @@ int	main(void)
 {
 	int	num;
 
+	ft_printf("%s\n", "Hola marti");
+
 	num = 42;
+	/*
 	ft_printf("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!\n");
  	ft_print("%%\n");
@@ -155,5 +158,6 @@ int	main(void)
 	ft_prints("%7.5s\n", "bombastic");
 
 	ft_printi("%015.10d", -50);
+	*/
 	return (0);
 }

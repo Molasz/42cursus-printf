@@ -18,8 +18,8 @@ MAKE		= Makefile
 
 SRCS		= ft_printf.c \
 			  ft_checks.c \
-			  ft_format.c \
 			  ft_identifiers.c \
+			  ft_putstr.c \
 			  ft_strhex.c \
 			  ft_uitoa.c \
 			  ft_utils.c

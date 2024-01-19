@@ -36,7 +36,7 @@ static char	*ft_identifiers_check_numbers(char c, va_list args, int *n)
 	return (res);
 }
 
-static char	*ft_identifiers_check_chars(char c, va_list args)
+static char	*ft_identifiers_check_chars(char c, va_list args, int *flags)
 {
 	char	*str;
 	char	*res;
@@ -53,6 +53,7 @@ static char	*ft_identifiers_check_chars(char c, va_list args)
 			res = ft_substr(str, 0, ft_strlen(str));
 		else
 			res = ft_substr("(null)", 0, 6);
+		return (ft_putstr(res, flags));
 	}
 	return (res);
 }
@@ -67,7 +68,7 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 	extra_len = 0;
 	res = ft_identifiers_check_numbers(c, args, &num);
 	if (!res)
-		res = ft_identifiers_check_chars(c, args);
+		res = ft_identifiers_check_chars(c, args, flags);
 	if (!res)
 		return (-1);
 	if (c == 'c' && !ft_strlen(res))
@@ -79,6 +80,7 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 		}
 		extra_len++;
 	}
+	/*
 	if (flags[3] || flags[4] != -1 || flags[5] != -1 || num != 0)
 		res = ft_format(c, res, flags, num);
 	if (!res)
@@ -90,5 +92,6 @@ int	ft_check_identifiers(char c, va_list args, int *flags)
 		return (-1);
 	}
 	free(res);
+	*/
 	return (num + extra_len);
 }

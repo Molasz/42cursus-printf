@@ -26,7 +26,11 @@ static void	ft_flags_check(char c, int *flags)
 	if (c == '#')
 		flags[2] = 1;
 	else if (c == '.')
-		flags[3] = 1;
+	{
+		if (flags[3] < 0)
+			flags[3] = 0; 
+		flags[4] = 0;
+	}
 }
 
 static int	ft_width_check(char *s, int *flags)
@@ -37,9 +41,9 @@ static int	ft_width_check(char *s, int *flags)
 	i = 0;
 	num = ft_atoi(s);
 	if (flags[3])
-		flags[5] = num;
-	else
 		flags[4] = num;
+	else
+		flags[3] = num;
 	while (ft_isdigit(s[i]))
 		i++;
 	return (i - 1);
@@ -47,7 +51,7 @@ static int	ft_width_check(char *s, int *flags)
 
 /*
  * FLAGS[5]
- * 0: Justify char	1:Left justify , 2:Left justify with 0
+ * 0: Justify char	1:Left justify , 2:Justify with 0
  * 1: Number sign	1:'+' , 2:' '
  * 2: 0x on hex		1:'#'
  * 3: Precision     1:'.'
