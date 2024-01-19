@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/18 13:16:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:28:22 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ static void	ft_flags_check(char c, int *flags)
 	if (c == '#')
 		flags[2] = 1;
 	else if (c == '.')
-	{
-		if (flags[3] < 0)
-			flags[3] = 0; 
 		flags[4] = 0;
-	}
 }
 
 static int	ft_width_check(char *s, int *flags)
@@ -49,14 +45,35 @@ static int	ft_width_check(char *s, int *flags)
 	return (i - 1);
 }
 
+int	ft_identifiers(char c, va_list args, int *flags)
+{
+	int	len;
+
+	len = 0;
+	if (c == 'd' || c == 'i')
+		len = ft_putint(va_arg(args, int), flags);
+	else if (c == 'u')
+		len = ft_putunsign(va_arg(args, unsigned int), flags);
+	else if (c == 'x' || c == 'X')
+		len = ft_puthex(va_arg(args, unsigned int), flags, c == 'x');
+	else if (c == 'p')
+		len = ft_putp(va_arg(args, void *), flags);
+	else if (c == 'c')
+		len = ft_putchr(va_arg(args, int), flags);
+	else if (c == '%')
+		len = ft_putchr('%', flags);
+	else if (c == 's')
+		len = ft_putstr(va_arg(args, char *), flags);
+	return (len);
+}
+
 /*
- * FLAGS[5]
+ * FLAGS
  * 0: Justify char	1:Left justify , 2:Justify with 0
  * 1: Number sign	1:'+' , 2:' '
- * 2: 0x on hex		1:'#'
- * 3: Precision     1:'.'
- * 4: len min
- * 5: len max
+ * 2: 0x on hex		1:0x Prefix
+ * 3: Width
+ * 4: Precision
  */
 int	ft_check_args(char *s, va_list args)
 {
@@ -64,11 +81,10 @@ int	ft_check_args(char *s, va_list args)
 	int		i;
 
 	i = 0;
-	flags = ft_calloc(sizeof (int), 6);
+	flags = ft_calloc(sizeof (int), 5);
 	if (!flags)
 		return (-1);
 	flags[4] = -1;
-	flags[5] = -1;
 	while (!ft_strrchr("cspdiuxX%", s[i]))
 	{
 		ft_flags_check(s[i], flags);
@@ -76,7 +92,7 @@ int	ft_check_args(char *s, va_list args)
 			i += ft_width_check(&s[i], flags);
 		i++;
 	}
-	i = ft_check_identifiers(s[i], args, flags);
+	i = ft_identifiers(s[i], args, flags);
 	free(flags);
 	return (i);
 }

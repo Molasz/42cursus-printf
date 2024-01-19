@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+         #
+#    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/18 14:49:39 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/19 18:47:57 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ MAKE		= Makefile
 
 SRCS		= ft_printf.c \
 			  ft_checks.c \
-			  ft_identifiers.c \
+			  ft_putchr.c \
+			  ft_puthex.c \
+			  ft_putint.c \
 			  ft_putstr.c \
 			  ft_strhex.c \
 			  ft_uitoa.c \
@@ -28,7 +30,7 @@ OBJS		= ${SRCS:.c=.o}
 
 DEPS		= ${SRCS:.c=.d}
 
-CC			= cc 
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 

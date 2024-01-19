@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 23:13:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/17 13:28:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:48:30 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,29 @@ int	ft_percent(int *i, char *s, va_list args)
 	return (len);
 }
 
+void	ft_init(int *i, int *len)
+{
+	*i = -1;
+	*len = 0;
+}
+
 int	ft_printf(const char *s, ...)
 {
 	va_list	args;
-	int		tmplen;
+	int		arglen;
 	int		len;
 	int		i;
 
 	va_start(args, s);
-	i = -1;
-	len = 0;
+	ft_init(&i, &len);
 	while (s[++i])
 	{
 		if (s[i] == '%')
 		{
-			tmplen = ft_percent(&i, (char *)s, args);
-			if (tmplen < 0)
+			arglen = ft_percent(&i, (char *)s, args);
+			if (arglen < 0)
 				return (-1);
-			len += tmplen;
+			len += arglen;
 		}
 		else
 		{
