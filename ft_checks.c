@@ -55,9 +55,9 @@ int	ft_identifiers(char c, va_list args, int *flags)
 	else if (c == 'u')
 		len = ft_putunsign(va_arg(args, unsigned int), flags);
 	else if (c == 'x' || c == 'X')
-		len = ft_puthex(va_arg(args, unsigned int), flags, c == 'x');
+		len = ft_puthex(va_arg(args, unsigned int), flags, c == 'x', 0);
 	else if (c == 'p')
-		len = ft_putp(va_arg(args, void *), flags);
+		len = ft_puthex((unsigned long)va_arg(args, void *), flags, 1, 1) + 2;
 	else if (c == 'c')
 		len = ft_putchr(va_arg(args, int), flags);
 	else if (c == '%')

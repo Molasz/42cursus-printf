@@ -21,105 +21,122 @@ static int	ft_putint_pre(int num, int sign)
 	return (0);
 }
 
-static int	ft_putint_precision(char *hex, int *flags, int zero, int lower)
+static int	ft_putint_precision(char *num, int *flags, int n)
 {
 	int	len;
 
 	len = 0;
 	if (flags[0] == 1)
 	{
-		if (flags[2] && !zero)
-			len = ft_putint_pre(lower);
+		if (flags[1] || n < 0)
+			len = ft_putint_pre(n, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
+			return (-1);
+		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+			return (-1);
+		len = write(1, num, ft_strlen(num));
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[3] - flags[4], 0);
 	}
 	else
 	{
 		len = ft_putjustify(flags[3] - flags[4], 0);
 		if (len < 0)
-			return (ft_free_all(hex));
-		if (flags[2] && !zero)
-			len = ft_putint_pre(lower);
+			return (-1);
+		if (flags[1] || n < 0)
+			len = ft_putint_pre(n, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
+			return (-1);
+		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+			return (-1);
+		len = write(1, num, ft_strlen(num));
 	}
-	return (len);
+	if (len < 0)
+		return (-1);
+	if (flags[3])
+		return (flags[3]);
+	return (ft_strlen(num) + flags[4]);
 }
 
-static int	ft_putint_justify(char *hex, int *flags, int zero, int lower)
+static int	ft_putint_justify(char *num, int *flags, int n)
 {
 	int	len;
 
 	len = 0;
 	if (flags[0] == 2)
 	{
-		if (flags[2] && !zero)
-			len = ft_putint_pre(lower);
+		if (flags[1] || n < 0)
+			len = ft_putint_pre(n, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
+			return (-1);
+		len = ft_putjustify(flags[3] - ft_strlen(num), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+			return (-1);
+		len = write(1, num, ft_strlen(num));
 	}
 	else if (flags[0] == 1)
 	{
-		if (flags[2] && !zero)
-			len = ft_putint_pre(lower);
+		if (flags[1] || n < 0)
+			len = ft_putint_pre(n, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+			return (-1);
+		len = write(1, num, ft_strlen(num));
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
+			return (-1);
+		len = ft_putjustify(flags[3] - ft_strlen(num), 0);
 	}
 	else
 	{
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
+		if ((int)((size_t)flags[3] - ft_strlen(num)) > 0)
+			len = ft_putjustify(flags[3] - ft_strlen(num), 0);
 		if (len < 0)
-			return (ft_free_all(hex));
-		if (flags[2] && !zero)
-			len = ft_putint_pre(lower);
+			return (-1);
+		if (flags[1] || n < 0)
+			len = ft_putint_pre(n, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+			return (-1);
+		len = write(1, num, ft_strlen(num));
 	}
-	return (len);
+	if (len < 0)
+			return (-1);
+	if (ft_strlen(num) >= (size_t)flags[3])
+		return (ft_strlen(num));
+	return (flags[3]);
 }
 
-int	ft_putint(unsigned int arg, int *flags, int lower)
+int	ft_putint(int arg, int *flags)
 {
-	char	*hex;
+	char	*num;
 	int		len;
 
 	len = 0;
-	hex = ft_strhex(arg, lower);
-	if (!hex)
+	num = ft_uitoa(ft_abs(arg));
+	if (!num)
 		return (-1);
-	if (flags[4])
-		len = ft_putint_precision(hex, flags, arg == 0, lower);
+	if (flags[3] && (flags[1] || arg < 0))
+		flags[3]--;
+	if (flags[4] >= 0)
+		len = ft_putint_precision(num, flags, arg);
 	else if (flags[3])
-		len = ft_putint_justify(hex, flags, arg == 0, lower);
+		len = ft_putint_justify(num, flags, arg);
 	else
 	{
-		if (flags[2] && arg != 0)
-			len = ft_putint_pre(lower);
+		if (flags[1] || arg < 0)
+			len = ft_putint_pre(arg, flags[1]);
 		if (len < 0)
-			return (ft_free_all(hex));
-		len = write(1, hex, ft_strlen(hex));
+		{
+			free(num);
+			return (-1);
+		}
+		len = write(1, num, ft_strlen(num));
 	}
+	if (arg < 0 || flags[1])
+		len++;
+	free(num);
 	if (len < 0)
-		return (ft_free_all(hex));
-	return (flags[4]);
+		return (-1);
+	return (len);
 }

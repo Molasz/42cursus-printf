@@ -20,84 +20,84 @@ static int	ft_puthex_pre(int lower)
 		return (write(1, "0X", 2));
 }
 
-static int	ft_puthex_precision(char *hex, int *flags, int zero, int lower)
+static int	ft_puthex_precision(char *hex, int *flags, int pre, int lower)
 {
 	int	len;
 
 	len = 0;
 	if (flags[0] == 1)
 	{
-		if (flags[2] && !zero)
+		if (pre)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = write(1, hex, ft_strlen(hex));
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[3] - flags[4], 0);
 	}
 	else
 	{
 		len = ft_putjustify(flags[3] - flags[4], 0);
 		if (len < 0)
-			return (ft_free_all(hex));
-		if (flags[2] && !zero)
+			return (-1);
+		if (pre)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = write(1, hex, ft_strlen(hex));
 	}
 	return (len);
 }
 
-static int	ft_puthex_justify(char *hex, int *flags, int zero, int lower)
+static int	ft_puthex_justify(char *hex, int *flags, int pre, int lower)
 {
 	int	len;
 
 	len = 0;
 	if (flags[0] == 2)
 	{
-		if (flags[2] && !zero)
+		if (pre)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = write(1, hex, ft_strlen(hex));
 	}
 	else if (flags[0] == 1)
 	{
-		if (flags[2] && !zero)
+		if (pre)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = write(1, hex, ft_strlen(hex));
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
 	}
 	else
 	{
 		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
 		if (len < 0)
-			return (ft_free_all(hex));
-		if (flags[2] && !zero)
+			return (-1);
+		if (pre)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+			return (-1);
 		len = write(1, hex, ft_strlen(hex));
 	}
 	return (len);
 }
 
-int	ft_puthex(unsigned int arg, int *flags, int lower)
+int	ft_puthex(unsigned long arg, int *flags, int lower, int p)
 {
 	char	*hex;
 	int		len;
@@ -106,19 +106,25 @@ int	ft_puthex(unsigned int arg, int *flags, int lower)
 	hex = ft_strhex(arg, lower);
 	if (!hex)
 		return (-1);
-	if (flags[4])
-		len = ft_puthex_precision(hex, flags, arg == 0, lower);
+	if (flags[4] >= 0)
+		len = ft_puthex_precision(hex, flags, (flags[2] && !arg) || p, lower);
 	else if (flags[3])
-		len = ft_puthex_justify(hex, flags, arg == 0, lower);
+		len = ft_puthex_justify(hex, flags, (flags[2] && !arg) || p, lower);
 	else
 	{
-		if (flags[2] && arg != 0)
+		if ((flags[2] && !arg) || p)
 			len = ft_puthex_pre(lower);
 		if (len < 0)
-			return (ft_free_all(hex));
+		{
+			free(hex);
+			return (-1);
+		}
 		len = write(1, hex, ft_strlen(hex));
 	}
+	if ((flags[2] && arg))
+		len += 2;
+	free(hex);
 	if (len < 0)
-		return (ft_free_all(hex));
-	return (flags[4]);
+		return (-1);
+	return (len);
 }

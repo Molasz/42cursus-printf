@@ -53,8 +53,3 @@ char	*ft_strhex(unsigned long nb, int lower)
 		s = strhex(nb, "0123456789ABCDEF");
 	return (s);
 }
-
-char	*ft_strp(void *p)
-{
-	return (ft_strhex((unsigned long)p, 1));
-}

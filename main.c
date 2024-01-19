@@ -21,7 +21,7 @@ void	ft_setcolor(int expected, int ft)
 }
 
 void	ft_resetcolor () {
-	printf("\033[0m");
+	printf("\033[0m\n");
 }
 
 void	ft_output(int expected, int ft, char *s)
@@ -33,8 +33,8 @@ void	ft_output(int expected, int ft, char *s)
 
 void	ft_print(char *s)
 {
-	int	expected;
-	int	ft;
+	int		expected;
+	int		ft;
 
 	expected = printf(s);
 	ft = ft_printf(s);
@@ -85,10 +85,7 @@ int	main(void)
 {
 	int	num;
 
-	ft_printf("%s\n", "Hola marti");
-
 	num = 42;
-	/*
 	ft_printf("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!\n");
  	ft_print("%%\n");
@@ -103,6 +100,7 @@ int	main(void)
 	ft_prints("%s\n", "");
 	ft_prints("%s\n", NULL);
 
+
 	ft_printi("%i\n", 42);
 	ft_printi("%d\n", -6);
 	ft_printi("%d\n", 2147483647);
@@ -110,6 +108,7 @@ int	main(void)
 	ft_printi("%i\n", 0);
 	ft_printi("%u\n", 42);
 	ft_printi("%u\n", -42);
+
 	ft_printi("%x\n", 42);
 	ft_printi("%X\n", -42);
 	ft_printi("%x\n", 0);
@@ -122,7 +121,11 @@ int	main(void)
 
 	ft_print("%5%\n");
 
+	ft_printi("%+d\n", 42);
+	ft_printi("%+d\n", -2);
+	ft_printi("% d\n", 0);
 	ft_printi("%5d\n", 42);
+	ft_printi("%5d\n", 2147483647);
 	ft_printi("%-5d\n", 24);
 	ft_printi("%05d\n", -42);
 	ft_printi("%0+5d\n", 42);
@@ -157,7 +160,5 @@ int	main(void)
 	ft_prints("%5s\n", "goes over");
 	ft_prints("%7.5s\n", "bombastic");
 
-	ft_printi("%015.10d", -50);
-	*/
 	return (0);
 }

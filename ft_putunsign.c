@@ -20,20 +20,20 @@ static int	ft_putunsign_precision(char *num, int *flags)
 	{
 		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = write(1, num, ft_strlen(num));
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = ft_putjustify(flags[3] - flags[4], 0);
 	}
 	else
 	{
 		len = ft_putjustify(flags[3] - flags[4], 0);
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = write(1, num, ft_strlen(num));
 	}
 	return (len);
@@ -47,14 +47,14 @@ static int	ft_putunsign_justify(char *num, int *flags)
 	{
 		len = ft_putjustify(flags[4] - ft_strlen(num), flags[0]);
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = write(1, num, ft_strlen(num));
 	}
 	else
 	{
 		len = write(1, num, ft_strlen(num));
 		if (len < 0)
-			return (ft_free_all(num));
+			return (-1);
 		len = ft_putjustify(flags[4] - ft_strlen(num), flags[0]);
 	}
 	return (len);
@@ -68,13 +68,14 @@ int	ft_putunsign(unsigned int arg, int *flags)
 	num = ft_uitoa(arg);
 	if (!num)
 		return (-1);
-	if (flags[4])
+	if (flags[4] >= 0)
 		len = ft_putunsign_precision(num, flags);
 	else if (flags[3])
 		len = ft_putunsign_justify(num, flags);
 	else
 		len = write(1, num, ft_strlen(num));
+	free(num);
 	if (len < 0)
-		return (ft_free_all(num));
-	return (flags[4]);
+		return (-1);
+	return (len);
 }

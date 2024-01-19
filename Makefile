@@ -14,7 +14,7 @@ NAME		= libftprintf.a
 
 HEAD		= ft_printf.h
 
-MAKE		= Makefile
+LIBFT		= libft/libft.a
 
 SRCS		= ft_printf.c \
 			  ft_checks.c \
@@ -22,6 +22,7 @@ SRCS		= ft_printf.c \
 			  ft_puthex.c \
 			  ft_putint.c \
 			  ft_putstr.c \
+			  ft_putunsign.c \
 			  ft_strhex.c \
 			  ft_uitoa.c \
 			  ft_utils.c
@@ -43,10 +44,13 @@ all:		${NAME}
 %.o:		%.c
 				${CC} ${CFLAGS} -c $< -MMD
 
-${NAME}:	${OBJS} ${HEAD} ${MAKE}
-				make -C libft
-				mv libft/libft.a ${NAME}
+${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
+				cp ${LIBFT} libft/${NAME}
+				mv libft/${NAME} ${NAME}
 				${AR} ${NAME} ${OBJS}
+
+${LIBFT}:	
+				make -C libft
 
 #bonus:		${NAME}
 
@@ -55,6 +59,8 @@ clean:
 				${RM} ${OBJS} ${DEPS}
 
 fclean:		clean
+				${RM} ${TEST}
+				${RM} ${LIBFT}
 				${RM} ${NAME}
 
 re:			fclean all

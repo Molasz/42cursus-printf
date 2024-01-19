@@ -22,7 +22,6 @@ int				ft_printf(const char *s, ...);
 
 char			*ft_uitoa(unsigned int n);
 char			*ft_strhex(unsigned long n, int lower);
-char			*ft_strp(void *p);
 
 int				ft_check_args(char *s, va_list args);
 int				ft_identifiers(char c, va_list args, int *flags);
@@ -32,13 +31,12 @@ char			*ft_chrstr(char c);
 
 int				ft_putstr(char *arg, int *flags);
 int				ft_putchr(char arg, int *flags);
-int				ft_putp(void *arg, int *flags);
-int				ft_puthex(unsigned int arg, int *flags, int lower);
+int				ft_puthex(unsigned long arg, int *flags, int lower, int p);
 int				ft_putunsign(unsigned int arg, int *flags);
 int				ft_putint(int arg, int *flags);
 
+int				ft_free_all(void *p);
 unsigned int	ft_abs(int n);
 int				ft_putjustify(int size, int zero);
-int				ft_free_all(void *p);
 
 #endif
