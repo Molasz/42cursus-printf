@@ -20,111 +20,131 @@ static int	ft_puthex_pre(int lower)
 		return (write(1, "0X", 2));
 }
 
-static int	ft_puthex_precision(char *hex, int *flags, int pre, int lower)
+static int	ft_puthex_precision(char *hex, t_flags *flags, int pre, int lower)
 {
-	int	len;
+	int		write_len;
+	size_t	len;
 
-	len = 0;
-	if (flags[0] == 1)
+	len = ft_strlen(hex);
+	if (flags->justify == '0')
 	{
 		if (pre)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, hex, ft_strlen(hex));
-		if (len < 0)
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify('0', flags->len - flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[3] - flags[4], 0);
+		write_len = write(1, hex, len);
+	}
+	else if (flags->justify == '-')
+	{
+		if (pre)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
+			return (-1);
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
+			return (-1);
+		write_len = write(1, hex, len);
+		if (write_len < 0)
+			return (-1);
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify(' ', flags->len - flags->precision - len);
 	}
 	else
 	{
-		len = ft_putjustify(flags[3] - flags[4], 0);
-		if (len < 0)
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify(' ', flags->len - flags->precision + len);
+		if (write_len < 0)
 			return (-1);
 		if (pre)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, hex, ft_strlen(hex));
+		write_len = write(1, hex, len);
 	}
-	return (len);
+	return (write_len);
 }
 
-static int	ft_puthex_justify(char *hex, int *flags, int pre, int lower)
+static int	ft_puthex_justify(char *hex, t_flags *flags, int pre, int lower)
 {
-	int	len;
+	int		write_len;
+	size_t	len;
 
-	len = 0;
-	if (flags[0] == 2)
+	len = ft_strlen(hex);
+	if (flags->justify == '0')
 	{
 		if (pre)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, hex, ft_strlen(hex));
+		write_len = write(1, hex, len);
 	}
-	else if (flags[0] == 1)
+	else if (flags->justify == ' ')
 	{
 		if (pre)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, hex, ft_strlen(hex));
-		if (len < 0)
+		len = write(1, hex, len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
+		write_len = ft_putjustify(' ', flags->len - len);
 	}
 	else
 	{
-		len = ft_putjustify(flags[4] - ft_strlen(hex), 0);
-		if (len < 0)
+		write_len = ft_putjustify(' ', flags->len - len);
+		if (write_len < 0)
 			return (-1);
 		if (pre)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, hex, ft_strlen(hex));
+		write_len = write(1, hex, len);
 	}
-	return (len);
+	return (write_len);
 }
 
-int	ft_puthex(unsigned long arg, int *flags, int lower, int p)
+int	ft_puthex(unsigned long arg, t_flags *flags, int lower, int p)
 {
 	char	*hex;
-	int		len;
+	size_t	len;
+	int		write_len;
 
-	len = 0;
 	hex = ft_strhex(arg, lower);
 	if (!hex)
 		return (-1);
-	if (flags[4] >= 0)
-		len = ft_puthex_precision(hex, flags, (flags[2] && !arg) || p, lower);
-	else if (flags[3])
-		len = ft_puthex_justify(hex, flags, (flags[2] && !arg) || p, lower);
+	len = ft_strlen(hex);
+	if (flags->precision >= len)
+		write_len = ft_puthex_precision(hex, flags, (flags->prefix && !arg) || p, lower);
+	else if (flags->len > len)
+		write_len = ft_puthex_justify(hex, flags, (flags->prefix && !arg) || p, lower);
 	else
 	{
-		if ((flags[2] && !arg) || p)
-			len = ft_puthex_pre(lower);
-		if (len < 0)
+		if ((flags->prefix && arg) || p)
+			write_len = ft_puthex_pre(lower);
+		if (write_len < 0)
 		{
 			free(hex);
 			return (-1);
 		}
-		len = write(1, hex, ft_strlen(hex));
+		write_len = write(1, hex, ft_strlen(hex));
 	}
-	if ((flags[2] && arg))
-		len += 2;
+	if ((flags->prefix && arg) || p)
+		write_len += 2;
 	free(hex);
-	if (len < 0)
+	if (write_len < 0)
 		return (-1);
-	return (len);
+	return (write_len);
 }

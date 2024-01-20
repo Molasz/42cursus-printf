@@ -12,30 +12,37 @@
 
 #include "ft_printf.h"
 
-int	ft_putchr(char arg, int *flags)
+int	ft_putchr(char arg, t_flags *flags)
 {
-	int	len;
+	int	write_len;
 
-	len = 0;
-	if (flags[3])
+	write_len = 0;
+	if (flags->len > 1)
 	{
-		if (flags[0] == 2)
+		if (flags->justify == '0')
 		{
-			len = write(1, &arg, 1);
-			if (len < 0)
+			write_len = ft_putjustify('0', flags->len - 1);
+			if (write_len < 0)
 				return (-1);
-			len = ft_putjustify(flags[3] - 1, flags[0]);
+			write_len = write(1, &arg, 1);
+		}
+		else if (flags->justify == '-')
+		{
+			write_len = write(1, &arg, 1);
+			if (write_len < 0)
+				return (-1);
+			write_len = ft_putjustify(' ', flags->len - 1);
 		}
 		else
 		{
-			len = ft_putjustify(flags[3] - 1, flags[0]);
-			if (len < 0)
+			write_len = ft_putjustify(' ', flags->len - 1);
+			if (write_len < 0)
 				return (-1);
-			len = write(1, &arg, 1);
+			write_len = write(1, &arg, 1);
 		}
-		if (len < 0)
+		if (write_len < 0)
 			return (-1);
-		return (flags[3]);
+		return (flags->len);
 	}
 	else
 		return (write(1, &arg, 1));

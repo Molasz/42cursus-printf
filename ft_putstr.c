@@ -12,33 +12,41 @@
 
 #include "ft_printf.h"
 
-int	ft_putstr_justify(char *arg, int *flags)
+int	ft_putstr_justify(char *arg, t_flags *flags, int len)
 {
-	int	len;
+	int	write_len;
 
-	if (flags[0] == 1)
+	if (flags->justify == '0')
 	{
-		len = write(1, arg, ft_strlen(arg));
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[3] - ft_strlen(arg), flags[0]);
+		write_len = write(1, arg, len);
+	}
+	if (flags->justify == '-')
+	{
+		write_len = write(1, arg, len);
+		if (write_len < 0)
+			return (-1);
+		write_len = ft_putjustify(' ', flags->len - len);
 	}
 	else
 	{
-		len = ft_putjustify(flags[3] - ft_strlen(arg), flags[0]);
-		if (len < 0)
+		write_len = ft_putjustify(' ', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, arg, ft_strlen(arg));
+		write_len = write(1, arg, len);
 	}
-	if (len < 0)
+	if (write_len < 0)
 		return (-1);
-	return (flags[3]);
+	return (flags->len);
 }
 
-int	ft_putstr(char *arg, int *flags)
+int	ft_putstr(char *arg, t_flags *flags)
 {
 	char	*res;
-	int		len;
+	size_t	len;
+	int		write_len;
 
 	res = arg;
 	if (!arg)
@@ -47,19 +55,20 @@ int	ft_putstr(char *arg, int *flags)
 		if (!res)
 			return (-1);
 	}
-	if (flags[4] >= 0)
+	if (flags->precision > len)
 	{
 		if (res != arg)
 			free(res);
-		res = ft_substr(res, 0, flags[4]);
+		res = ft_substr(res, 0, flags->precision);
 		if (!res)
 			return (-1);
 	}
-	if (flags[3])
-		len = ft_putstr_justify(res, flags);
+	len = ft_strlen(res);
+	if (flags->len >= len)
+		write_len = ft_putstr_justify(res, flags);
 	else
-		len = write(1, res, ft_strlen(res));
+		write_len = write(1, res, len);
 	if (res != arg)
 		free(res);
-	return (len);
+	return (write_len);
 }

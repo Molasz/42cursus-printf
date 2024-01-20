@@ -86,6 +86,7 @@ int	main(void)
 	int	num;
 
 	num = 42;
+	/*
 	ft_printf("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!\n");
  	ft_print("%%\n");
@@ -125,7 +126,9 @@ int	main(void)
 	ft_printi("%+d\n", -2);
 	ft_printi("% d\n", 0);
 	ft_printi("%5d\n", 42);
+	*/
 	ft_printi("%5d\n", 2147483647);
+	/*
 	ft_printi("%-5d\n", 24);
 	ft_printi("%05d\n", -42);
 	ft_printi("%0+5d\n", 42);
@@ -159,6 +162,7 @@ int	main(void)
 	ft_prints("%.0s\n", "hello");
 	ft_prints("%5s\n", "goes over");
 	ft_prints("%7.5s\n", "bombastic");
+	*/
 
 	return (0);
 }

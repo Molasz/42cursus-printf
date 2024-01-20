@@ -25,15 +25,11 @@ unsigned int	ft_abs(int n)
 	return (n);
 }
 
-int	ft_putjustify(int size, int justify)
+int	ft_putjustify(char c, int size)
 {
-	char	c;
 	int		i;
 
 	i = 0;
-	c = ' ';
-	if (justify == 2)
-		c = '0';
 	while (i < size)
 	{
 		if (write(1, &c, 1) < 0)

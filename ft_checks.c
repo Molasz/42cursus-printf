@@ -12,40 +12,33 @@
 
 #include "ft_printf.h"
 
-static void	ft_flags_check(char c, int *flags)
+static int	ft_flags_check(char *s, t_flags *flags)
 {
-	if (flags[0] != 1)
-	{
-		if (c == '-')
-			flags[0] = 1;
-		else if (c == '0')
-			flags[0] = 2;
-	}
-	if (flags[1] != '+' && (c == '+' || c == ' '))
-		flags[1] = c;
-	if (c == '#')
-		flags[2] = 1;
-	else if (c == '.')
-		flags[4] = 0;
-}
-
-static int	ft_width_check(char *s, int *flags)
-{
-	int	num;
 	int	i;
 
-	i = 0;
-	num = ft_atoi(s);
-	if (flags[3])
-		flags[4] = num;
-	else
-		flags[3] = num;
-	while (ft_isdigit(s[i]))
-		i++;
-	return (i - 1);
+	if ( (*s == '-' || *s == '0') && flags->justify != '-')
+		flags->justify = *s;
+	else if ((*s == '+' || *s == ' ') && flags->sign != '+')
+		flags->sign = *s;
+	else if (*s == '#')
+		flags->prefix = 1;
+	else if (*s == '.')
+		flags->precision = 0;
+	else if (*s > '0' && *s <= '9')
+	{
+		i = 0;
+		if (flags->len)
+			flags->precision = (size_t)ft_atoi(s);
+		else
+			flags->len = (size_t)ft_atoi(s);
+		while (ft_isdigit(s[i]))
+			i++;
+		return (i - 1);
+	}
+	return (1);
 }
 
-int	ft_identifiers(char c, va_list args, int *flags)
+int	ft_identifiers(char c, va_list args, t_flags *flags)
 {
 	int	len;
 
@@ -67,31 +60,22 @@ int	ft_identifiers(char c, va_list args, int *flags)
 	return (len);
 }
 
-/*
- * FLAGS
- * 0: Justify char	1:Left justify , 2:Justify with 0
- * 1: Number sign	1:'+' , 2:' '
- * 2: 0x on hex		1:0x Prefix
- * 3: Width
- * 4: Precision
- */
 int	ft_check_args(char *s, va_list args)
 {
-	int		*flags;
+	t_flags	*flags;
 	int		i;
 
 	i = 0;
-	flags = ft_calloc(sizeof (int), 5);
+	flags = malloc(sizeof (t_flags));
 	if (!flags)
 		return (-1);
-	flags[4] = -1;
+	flags->justify = 0;
+	flags->sign = 0;
+	flags->prefix = 0;
+	flags->len = 0;
+	flags->precision = -1;
 	while (!ft_strrchr("cspdiuxX%", s[i]))
-	{
-		ft_flags_check(s[i], flags);
-		if (ft_isdigit(s[i]))
-			i += ft_width_check(&s[i], flags);
-		i++;
-	}
+		ft_flags_check(s + i, flags);
 	i = ft_identifiers(s[i], args, flags);
 	free(flags);
 	return (i);
