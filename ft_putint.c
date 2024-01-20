@@ -21,129 +21,147 @@ static int	ft_putint_pre(int num, int sign)
 	return (0);
 }
 
-static int	ft_putint_precision(char *num, int *flags, int n)
+static int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 {
-	int	len;
+	int	write_len;
+	int	sign_len;
 
-	len = 0;
-	if (flags[0] == 1)
+	write_len = 0;
+	sign_len = 0;
+	if (flags->justify == '0')
 	{
-		if (flags[1] || n < 0)
-			len = ft_putint_pre(n, flags[1]);
-		if (len < 0)
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, num, ft_strlen(num));
-		if (len < 0)
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify('0', flags->len - flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		if ((int)((size_t)flags[3] - flags[4] - ft_strlen(num)) > 0)
-			len = ft_putjustify(flags[3] - flags[4], 0);
+		write_len = write(1, num, len);
+	}
+	else if (flags->justify == '-')
+	{
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
+			return (-1);
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
+			return (-1);
+		write_len = write(1, num, len);
+		if (write_len < 0)
+			return (-1);
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify(' ', flags->len - flags->precision - len);
 	}
 	else
 	{
-		if ((int)((size_t)flags[3]  - flags[4] - ft_strlen(num)) > 0)
-			len = ft_putjustify(flags[3] - flags[4], 0);
-		if (len < 0)
+		if (flags->len > flags->precision)
+			write_len = ft_putjustify(' ', flags->len - flags->precision);
+		if (write_len < 0)
 			return (-1);
-		if (flags[1] || n < 0)
-			len = ft_putint_pre(n, flags[1]);
-		if (len < 0)
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - ft_strlen(num), 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, num, ft_strlen(num));
+		write_len = write(1, num, len);
 	}
-	if (len < 0)
+	if (write_len < 0)
 		return (-1);
-	if (flags[3])
-		return (flags[3]);
-	return (ft_strlen(num) + flags[4]);
+	if (n < 0 || flags->sign)
+		sign_len = 1;
+	if (flags->len + sign_len > flags->precision)
+		return (flags->len + sign_len);
+	return (flags->precision + sign_len);
 }
 
-static int	ft_putint_justify(char *num, int *flags, int n)
+static int	ft_putint_justify(char *num, t_flags *flags, int n, size_t len)
 {
-	size_t	size;
-	int		len;
+	int	write_len;
 
-	len = 0;
-	size = ft_strlen(num);
-	printf();
-	if (flags[0] == 2)
+	write_len = 0;
+	if (flags->justify == '0')
 	{
-		if (flags[1] || n < 0)
-			len = ft_putint_pre(n, flags[1]);
-		if (len < 0)
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
 			return (-1);
-		if ((long)size > flags[3])
-			len = ft_putjustify(size, 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, num, ft_strlen(num));
+		write_len = write(1, num, len);
 	}
-	else if (flags[0] == 1)
+	else if (flags->justify == '-')
 	{
-		if (flags[1] || n < 0)
-			len = ft_putint_pre(n, flags[1]);
-		if (len < 0)
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, num, ft_strlen(num));
-		if (len < 0)
+		write_len = write(1, num, len);
+		if (write_len < 0)
 			return (-1);
-		if ((long)size > flags[3])
-			len = ft_putjustify(size, 0);
+		if (flags->len > len)
+			write_len = ft_putjustify(' ', flags->len - len);
 	}
 	else
 	{
-		if ((long)size > flags[3])
-			len = ft_putjustify(size, 0);
-		if (len < 0)
+		if (flags->len > len)
+			write_len = ft_putjustify(' ', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		if (flags[1] || n < 0)
-			len = ft_putint_pre(n, flags[1]);
-		if (len < 0)
+		if (flags->sign || n < 0)
+			write_len = ft_putint_pre(n, flags->sign);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, num, ft_strlen(num));
+		write_len = write(1, num, len);
 	}
-	if (len < 0)
+	if (write_len < 0)
 			return (-1);
-	if (ft_strlen(num) >= (size_t)flags[3])
-		return (ft_strlen(num));
-	return (flags[3]);
+	if (flags->sign || n < 0)
+		flags->len++;
+	return (flags->len);
 }
 
 int	ft_putint(int arg, t_flags *flags)
 {
 	char	*num;
-	int		len;
+	size_t	len;
+	int		write_len;
 
 	len = 0;
 	num = ft_uitoa(ft_abs(arg));
+	write_len = 0;
 	if (!num)
 		return (-1);
-	if (flags[3] && (flags[1] || arg < 0))
-		flags[3]--;
-	if (flags[4] >= 0)
-		len = ft_putint_precision(num, flags, arg);
-	else if (flags[3])
-		len = ft_putint_justify(num, flags, arg);
+	len = ft_strlen(num);
+	if (flags->len && (arg < 0 || flags->sign))
+		flags->len--;
+	if (flags->precision > len)
+		write_len = ft_putint_precision(num, flags, arg, len);
+	else if (flags-> len > len)
+		write_len = ft_putint_justify(num, flags, arg, len);
 	else
 	{
-		if (flags[1] || arg < 0)
-			len = ft_putint_pre(arg, flags[1]);
-		if (len < 0)
+		if (flags->sign || arg < 0)
+			write_len = ft_putint_pre(arg, flags->sign);
+		if (write_len < 0)
 		{
 			free(num);
 			return (-1);
 		}
-		len = write(1, num, ft_strlen(num));
+		write_len = write(1, num, ft_strlen(num));
+		if (arg < 0 || flags->sign)
+			write_len++;
 	}
-	if (arg < 0 || flags[1])
-		len++;
 	free(num);
-	if (len < 0)
+	if (write_len < 0)
 		return (-1);
-	return (len);
+	return (write_len);
 }

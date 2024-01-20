@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_putstr_justify(char *arg, t_flags *flags, int len)
+int	ft_putstr_justify(char *arg, t_flags *flags, size_t len)
 {
 	int	write_len;
 
@@ -51,11 +51,12 @@ int	ft_putstr(char *arg, t_flags *flags)
 	res = arg;
 	if (!arg)
 	{
-		res = ft_substr("(null)", 0, 7);
+		res = ft_substr("(null)", 0, 6);
 		if (!res)
 			return (-1);
 	}
-	if (flags->precision > len)
+	len = ft_strlen(res);
+	if (flags->precision && flags->precision < len)
 	{
 		if (res != arg)
 			free(res);
@@ -63,9 +64,8 @@ int	ft_putstr(char *arg, t_flags *flags)
 		if (!res)
 			return (-1);
 	}
-	len = ft_strlen(res);
 	if (flags->len >= len)
-		write_len = ft_putstr_justify(res, flags);
+		write_len = ft_putstr_justify(res, flags, len);
 	else
 		write_len = write(1, res, len);
 	if (res != arg)

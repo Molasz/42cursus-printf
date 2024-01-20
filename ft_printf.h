@@ -31,6 +31,7 @@ typedef struct s_flags
 	char	justify;
 	char	sign;
 	int	 	prefix;
+	int		has_precision;
 	size_t  len;
 	size_t  precision;
 }   t_flags;

@@ -12,64 +12,88 @@
 
 #include "ft_printf.h"
 
-static int	ft_putunsign_precision(char *arg, int *flags, int len)
+static int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
 {
-	int	len;
+	int	write_len;
 
 	if (flags->justify == '0')
 	{
-		len = ft_putjustify(flags[4] - len, 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, arg, len);
-		if (len < 0)
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify('0', flags->len - flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[3] - flags[4], 0);
+		write_len = write(1, arg, len);
+	}
+	else if (flags->justify == '-')
+	{
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
+			return (-1);
+		write_len = write(1, arg, len);
+		if (write_len < 0)
+			return (-1);
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify(' ', flags->precision - len);
 	}
 	else
 	{
-		len = ft_putjustify(flags[3] - flags[4], 0);
-		if (len < 0)
+		if (flags->len > flags->precision + len)
+			write_len = ft_putjustify(' ', flags->len - flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - len, 2);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->precision - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, arg, len);
+		write_len = write(1, arg, len);
 	}
-	return (len);
+	if (write_len < 0)
+		return (-1);
+	if (flags->len)
+		return (flags->len);
+	return (len + flags->precision);
 }
 
-static int	ft_putunsign_justify(char *arg, int *flags, int len)
+static int	ft_putunsign_justify(char *arg, t_flags *flags, size_t len)
 {
-	int	len;
+	int	write_len;
 
-	if (flags[0] == 1)
+	if (flags->justify == '0')
 	{
-		len = ft_putjustify(flags[4] - len, flags[0]);
-		if (len < 0)
+		write_len = ft_putjustify('0', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = write(1, arg, len);
+		write_len = write(1, arg, len);
+	}
+	else if (flags->justify == '-')
+	{
+		write_len = write(1, arg, len);
+		if (write_len < 0)
+			return (-1);
+		write_len = ft_putjustify(' ', flags->len - len);
 	}
 	else
 	{
-		len = write(1, arg, len);
-		if (len < 0)
+		write_len = ft_putjustify(' ', flags->len - len);
+		if (write_len < 0)
 			return (-1);
-		len = ft_putjustify(flags[4] - len, flags[0]);
+		write_len = write(1, arg, len);
 	}
-	return (len);
+	return (flags->len);
 }
 
 int	ft_putunsign(unsigned int arg, t_flags *flags)
 {
 	char	*num;
-	int	
+	int		write_len;
 	size_t	len;
 
 	num = ft_uitoa(arg);
 	if (!num)
 		return (-1);
-	len = ft_strlen(arg);
+	len = ft_strlen(num);
 	if (flags->precision >= len)
 		write_len = ft_putunsign_precision(num, flags, len);
 	else if (flags->len > len)

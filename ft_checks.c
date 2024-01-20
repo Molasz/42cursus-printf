@@ -23,17 +23,17 @@ static int	ft_flags_check(char *s, t_flags *flags)
 	else if (*s == '#')
 		flags->prefix = 1;
 	else if (*s == '.')
-		flags->precision = 0;
+		flags->has_precision = 1;
 	else if (*s > '0' && *s <= '9')
 	{
 		i = 0;
-		if (flags->len)
+		if (flags->has_precision)
 			flags->precision = (size_t)ft_atoi(s);
 		else
 			flags->len = (size_t)ft_atoi(s);
 		while (ft_isdigit(s[i]))
 			i++;
-		return (i - 1);
+		return (i);
 	}
 	return (1);
 }
@@ -50,7 +50,7 @@ int	ft_identifiers(char c, va_list args, t_flags *flags)
 	else if (c == 'x' || c == 'X')
 		len = ft_puthex(va_arg(args, unsigned int), flags, c == 'x', 0);
 	else if (c == 'p')
-		len = ft_puthex((unsigned long)va_arg(args, void *), flags, 1, 1) + 2;
+		len = ft_puthex((unsigned long)va_arg(args, void *), flags, 1, 1);
 	else if (c == 'c')
 		len = ft_putchr(va_arg(args, int), flags);
 	else if (c == '%')
@@ -72,10 +72,11 @@ int	ft_check_args(char *s, va_list args)
 	flags->justify = 0;
 	flags->sign = 0;
 	flags->prefix = 0;
+	flags->has_precision = 0;
 	flags->len = 0;
-	flags->precision = -1;
+	flags->precision = 0;
 	while (!ft_strrchr("cspdiuxX%", s[i]))
-		ft_flags_check(s + i, flags);
+		i += ft_flags_check(s + i, flags);
 	i = ft_identifiers(s[i], args, flags);
 	free(flags);
 	return (i);
