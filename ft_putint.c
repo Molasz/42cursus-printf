@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:59:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/19 19:11:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/20 20:11:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 		write_len = ft_putjustify('0', flags->precision - len);
 		if (write_len < 0)
 			return (-1);
-		if (flags->len > flags->precision + len)
-			write_len = ft_putjustify('0', flags->len - flags->precision - len);
+		if (flags->len > flags->precision)
+			write_len = ft_putjustify('0', flags->len - flags->precision);
 		if (write_len < 0)
 			return (-1);
 		write_len = write(1, num, len);
@@ -55,8 +55,8 @@ static int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 		write_len = write(1, num, len);
 		if (write_len < 0)
 			return (-1);
-		if (flags->len > flags->precision + len)
-			write_len = ft_putjustify(' ', flags->len - flags->precision - len);
+		if (flags->len > flags->precision)
+			write_len = ft_putjustify(' ', flags->len - flags->precision);
 	}
 	else
 	{
@@ -123,7 +123,7 @@ static int	ft_putint_justify(char *num, t_flags *flags, int n, size_t len)
 		write_len = write(1, num, len);
 	}
 	if (write_len < 0)
-			return (-1);
+		return (-1);
 	if (flags->sign || n < 0)
 		flags->len++;
 	return (flags->len);
@@ -135,12 +135,11 @@ int	ft_putint(int arg, t_flags *flags)
 	size_t	len;
 	int		write_len;
 
-	len = 0;
 	num = ft_uitoa(ft_abs(arg));
-	write_len = 0;
 	if (!num)
 		return (-1);
 	len = ft_strlen(num);
+	write_len = 0;
 	if (flags->len && (arg < 0 || flags->sign))
 		flags->len--;
 	if (flags->precision > len)
@@ -157,6 +156,8 @@ int	ft_putint(int arg, t_flags *flags)
 			return (-1);
 		}
 		write_len = write(1, num, ft_strlen(num));
+		if (write_len < 0)
+			return (-1);
 		if (arg < 0 || flags->sign)
 			write_len++;
 	}

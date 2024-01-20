@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:55:33 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/19 18:39:05 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:34:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_putstr(char *arg, t_flags *flags)
 			return (-1);
 	}
 	len = ft_strlen(res);
-	if (flags->precision && flags->precision < len)
+	if (flags->has_precision && flags->precision < len)
 	{
 		if (res != arg)
 			free(res);

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:48:01 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/19 14:28:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:53:07 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_flags_check(char *s, t_flags *flags)
 {
 	int	i;
 
-	if ( (*s == '-' || *s == '0') && flags->justify != '-')
+	if ((*s == '-' || *s == '0') && flags->justify != '-')
 		flags->justify = *s;
 	else if ((*s == '+' || *s == ' ') && flags->sign != '+')
 		flags->sign = *s;

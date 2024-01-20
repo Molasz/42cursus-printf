@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/19 18:47:57 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/20 16:23:43 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +49,10 @@ ${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
 				mv libft/${NAME} ${NAME}
 				${AR} ${NAME} ${OBJS}
 
-${LIBFT}:	
+${LIBFT}:
 				make -C libft
 
-#bonus:		${NAME}
+bonus:		${NAME}
 
 clean:
 			make -C libft clean

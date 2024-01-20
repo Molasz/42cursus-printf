@@ -24,17 +24,17 @@
  * Sign			0 '+' ' '
  * Prefix		0 1
  * Len			0 size_t
- * Precision   -1 size_t 
+ * Precision   -1 size_t
  */
 typedef struct s_flags
 {
 	char	justify;
 	char	sign;
-	int	 	prefix;
+	int		prefix;
 	int		has_precision;
-	size_t  len;
-	size_t  precision;
-}   t_flags;
+	size_t	len;
+	size_t	precision;
+}	t_flags;
 
 int				ft_printf(const char *s, ...);
 

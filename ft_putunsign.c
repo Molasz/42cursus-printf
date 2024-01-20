@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:01:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/19 18:49:28 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:51:26 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
 {
 	int	write_len;
 
+	write_len = 0;
 	if (flags->justify == '0')
 	{
 		write_len = ft_putjustify('0', flags->precision - len);

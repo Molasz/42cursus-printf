@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/18 19:19:08 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:32:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int	main(void)
 
 	ft_prints("%.s\n", NULL);
 	ft_prints("%.0s\n", "hello");
+	ft_prints("%5.0s\n", "hello");
 	ft_prints("%5s\n", "goes over");
 	ft_prints("%7.5s\n", "bombastic");
 
