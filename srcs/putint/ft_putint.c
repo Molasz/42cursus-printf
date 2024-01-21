@@ -28,15 +28,12 @@ static int	ft_putint_normal(char *num, t_flags *flags, int arg, size_t len)
 	sign = 0;
 	if (arg < 0 || flags->sign)
 		sign = 1;
-	if (flags->sign || arg < 0)
+	if (ft_putint_pre(arg, flags->sign) < 0)
 	{
-		if (ft_putint_pre(arg, flags->sign) < 0)
-		{
-			free(num);
-			return (-1);
-		}
+		free(num);
+		return (-1);
 	}
-	if (write(1, num, ft_strlen(num)) < 0)
+	if (write(1, num, len) < 0)
 		return (-1);
 	return (len + sign);
 }
@@ -51,10 +48,12 @@ int	ft_putint(int arg, t_flags *flags)
 	if (!num)
 		return (-1);
 	len = ft_strlen(num);
-	write_len = 0;
+	if (!arg && (flags->has_precision))
+		len = 0;
 	if (flags->len && (arg < 0 || flags->sign))
 		flags->len--;
-	if (flags->precision > len)
+	write_len = 0;
+	if (flags->precision > 0)
 		write_len = ft_putint_precision(num, flags, arg, len);
 	else if (flags-> len > len)
 		write_len = ft_putint_justify(num, flags, arg, len);

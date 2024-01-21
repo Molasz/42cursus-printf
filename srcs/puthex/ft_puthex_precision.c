@@ -73,9 +73,7 @@ int	ft_puthex_precision(char *hex, t_flags *flags, int pre, int lower)
 {
 	int		error;
 	int		sign_len;
-	size_t	len;
 
-	len = ft_strlen(hex);
 	sign_len = 0;
 	if (pre)
 		sign_len = 2;
@@ -89,5 +87,5 @@ int	ft_puthex_precision(char *hex, t_flags *flags, int pre, int lower)
 		return (-1);
 	if (flags->len + sign_len > flags->precision)
 		return (flags->len + sign_len);
-	return (flags->precision + len);
+	return (flags->precision + sign_len);
 }

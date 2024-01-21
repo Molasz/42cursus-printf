@@ -12,60 +12,6 @@
 
 #include "../../ft_printf.h"
 
-static int	ft_putunsign_precision_normal(char *arg, t_flags *flags, size_t len)
-{
-	if (flags->len > flags->precision + len)
-	{
-		if (ft_putjustify(' ', flags->len - flags->precision - len))
-			return (1);
-	}
-	if (ft_putjustify('0', flags->precision - len) < 0)
-		return (1);
-	if (write(1, arg, len))
-		return (1);
-	return (0);
-}
-
-static int	ft_putunsign_precision_left(char *arg, t_flags *flags, size_t len)
-{
-	if (ft_putjustify('0', flags->precision - len) < 0)
-		return (1);
-	if (write(1, arg, len))
-		return (1);
-	if (flags->len > flags->precision + len)
-	{
-		if (ft_putjustify(' ', flags->len - flags->precision - len))
-			return (1);
-	}
-	return (0);
-}
-
-static int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
-{
-	if (flags->justify == '0')
-	{
-		if (ft_putjustify('0', flags->precision - len) < 0)
-			return (-1);
-		if (flags->len > flags->precision + len)
-		{
-			if (ft_putjustify('0', flags->len - flags->precision - len))
-				return (-1);
-		}
-		if (write(1, arg, len))
-			return (-1);
-	}
-	else if (flags->justify == '-')
-	{
-		if (ft_putunsign_precision_left(arg, flags, len))
-			return (-1);
-	}
-	else if (ft_putunsign_precision_normal(arg, flags, len))
-		return (-1);
-	if (flags->len)
-		return (flags->len);
-	return (len + flags->precision);
-}
-
 static int	ft_putunsign_justify(char *arg, t_flags *flags, size_t len)
 {
 	if (flags->justify == '0')
@@ -79,7 +25,7 @@ static int	ft_putunsign_justify(char *arg, t_flags *flags, size_t len)
 	{
 		if (write(1, arg, len))
 			return (-1);
-		if (ft_putjustify('0', flags->len - len) < 0)
+		if (ft_putjustify(' ', flags->len - len) < 0)
 			return (-1);
 	}
 	else
@@ -102,7 +48,7 @@ int	ft_putunsign(unsigned int arg, t_flags *flags)
 	if (!num)
 		return (-1);
 	len = ft_strlen(num);
-	if (flags->precision >= len)
+	if (flags->precision > 0)
 		write_len = ft_putunsign_precision(num, flags, len);
 	else if (flags->len > len)
 		write_len = ft_putunsign_justify(num, flags, len);

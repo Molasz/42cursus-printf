@@ -40,10 +40,16 @@ all:		${NAME}
 %.o:		%.c
 				${CC} ${CFLAGS} -c $<
 
-${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
+#${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
+#				cp ${LIBFT} libft/${NAME}
+#				mv libft/${NAME} ${NAME}
+#				${AR} ${NAME} ${OBJS}
+
+${NAME}:	${LIBFT} ${HEAD} Makefile
 				cp ${LIBFT} libft/${NAME}
 				mv libft/${NAME} ${NAME}
-				${AR} ${NAME} ${OBJS}
+				cc -c srcs/*.c srcs/*/*.c
+				${AR} ${NAME} *.o
 
 ${LIBFT}:
 				make -C libft
@@ -52,7 +58,7 @@ bonus:		${NAME}
 
 clean:
 			make -C libft clean
-				${RM} ${OBJS} ${DEPS}
+				${RM} ${OBJS} ${DEPS} *.o
 
 fclean:		clean
 				${RM} ${TEST}

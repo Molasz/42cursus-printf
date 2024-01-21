@@ -14,16 +14,22 @@
 
 static int	ft_putint_prec_zero(char *num, t_flags *flags, int n, size_t len)
 {
-	if (flags->sign || n < 0)
-	{
-		if (ft_putint_pre(n, flags->sign) < 0)
-			return (1);
-	}
-	if (ft_putjustify('0', flags->precision - len) < 0)
-		return (1);
+	int	space_len;
+
+	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
+	else
+		space_len = flags->len - len;
 	if (flags->len > flags->precision)
 	{
-		if (ft_putjustify('0', flags->len - flags->precision) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
+			return (1);
+	}
+	if (ft_putint_pre(n, flags->sign) < 0)
+		return (1);
+	if (flags->precision > len)
+	{
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (1);
 	}
 	if (write(1, num, len) < 0)
@@ -33,18 +39,24 @@ static int	ft_putint_prec_zero(char *num, t_flags *flags, int n, size_t len)
 
 static int	ft_putint_prec_left(char *num, t_flags *flags, int n, size_t len)
 {
-	if (flags->sign || n < 0)
+	int	space_len;
+
+	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
+	else
+		space_len = flags->len - len;
+	if (ft_putint_pre(n, flags->sign) < 0)
+		return (1);
+	if (flags->precision > len)
 	{
-		if (ft_putint_pre(n, flags->sign) < 0)
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (1);
 	}
-	if (ft_putjustify('0', flags->precision - len) < 0)
-		return (1);
 	if (write(1, num, len) < 0)
 		return (1);
 	if (flags->len > flags->precision)
 	{
-		if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
 	}
 	return (0);
@@ -52,18 +64,24 @@ static int	ft_putint_prec_left(char *num, t_flags *flags, int n, size_t len)
 
 static int	ft_putint_prec_normal(char *num, t_flags *flags, int n, size_t len)
 {
+	int	space_len;
+
+	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
+	else
+		space_len = flags->len - len;
 	if (flags->len > flags->precision)
 	{
-		if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
 	}
-	if (flags->sign || n < 0)
-	{
-		if (ft_putint_pre(n, flags->sign) < 0)
-			return (1);
-	}
-	if (ft_putjustify('0', flags->precision - len) < 0)
+	if (ft_putint_pre(n, flags->sign) < 0)
 		return (1);
+	if (flags->precision > len)
+	{
+		if (ft_putjustify('0', flags->precision - len) < 0)
+			return (1);
+	}
 	if (write(1, num, len) < 0)
 		return (1);
 	return (0);
@@ -75,6 +93,8 @@ int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 	int	sign_len;
 
 	sign_len = 0;
+	if (n < 0 || flags->sign)
+		sign_len = 1;
 	if (flags->justify == '0')
 		error = ft_putint_prec_zero(num, flags, n, len);
 	else if (flags->justify == '-')
@@ -83,9 +103,9 @@ int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 		error = ft_putint_prec_normal(num, flags, n, len);
 	if (error)
 		return (-1);
-	if (n < 0 || flags->sign)
-		sign_len = 1;
 	if (flags->len + sign_len > flags->precision)
 		return (flags->len + sign_len);
-	return (flags->precision + sign_len);
+	else if (flags->precision > len)
+		return (flags->precision + sign_len);
+	return (len + sign_len);
 }

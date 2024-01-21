@@ -32,7 +32,7 @@ static int	ft_putstr_justify(char *arg, t_flags *flags, size_t len)
 {
 	if (flags->justify == '0')
 	{
-		if (ft_putjustify('0', flags->len - len))
+		if (ft_putjustify('0', flags->len - len) < 0)
 			return (-1);
 		if (write(1, arg, len) < 0)
 			return (-1);
@@ -69,13 +69,15 @@ int	ft_putstr(char *arg, t_flags *flags)
 	}
 	len = ft_strlen(res);
 	if (ft_putstr_prec(arg, res, flags, &len))
+	{
+		if (res != arg)
+			free(res);
 		return (-1);
-	if (flags->len >= len)
+	}
+	if (flags->len > len)
 		write_len = ft_putstr_justify(res, flags, len);
 	else
 		write_len = write(1, res, len);
-	if (write_len < 0)
-		return (-1);
 	if (res != arg)
 		free(res);
 	return (write_len);

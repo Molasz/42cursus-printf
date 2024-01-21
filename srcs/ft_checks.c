@@ -16,15 +16,18 @@ static int	ft_flags_check(char *s, t_flags *flags)
 {
 	int	i;
 
-	if ((*s == '-' || *s == '0') && flags->justify != '-')
-		flags->justify = *s;
-	else if ((*s == '+' || *s == ' ') && flags->sign != '+')
-		flags->sign = *s;
-	else if (*s == '#')
-		flags->prefix = 1;
-	else if (*s == '.')
-		flags->has_precision = 1;
-	else if (*s > '0' && *s <= '9')
+	if (!flags->has_precision)
+	{
+		if ((*s == '-' || *s == '0') && flags->justify != '-')
+			flags->justify = *s;
+		else if ((*s == '+' || *s == ' ') && flags->sign != '+')
+			flags->sign = *s;
+		else if (*s == '#')
+			flags->prefix = 1;
+		else if (*s == '.')
+			flags->has_precision = 1;
+	}
+	if (*s > '0' && *s <= '9')
 	{
 		i = 0;
 		if (flags->has_precision)

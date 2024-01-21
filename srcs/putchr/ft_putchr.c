@@ -16,7 +16,7 @@ static int	ft_putchr_justify(char arg, t_flags *flags)
 {
 	if (flags->justify == '0')
 	{
-		if (ft_putjustify('0', flags->len - 1) < 0)
+		if (ft_putjustify(' ', flags->len - 1) < 0)
 			return (-1);
 		if (write(1, &arg, 1) < 0)
 			return (-1);
