@@ -180,7 +180,6 @@ int	main(void)
 	ft_title("\n\n\n   >>>   EXTRA   <<<\n\n");
 
 	ft_printi("%08.5i|\n", 34);
-	/*
 	ft_printi("%010.5i|\n", -216);
 	ft_printi("%08.5i|\n", 0);
 	ft_printi("%08.3i|\n", 8375);
@@ -204,7 +203,6 @@ int	main(void)
 	ft_printi("%-5.d|\n", 0);
 
 	ft_printi("%20.5u\n|", 1024u);
-	*/
 
 	return (0);
 }

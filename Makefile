@@ -27,10 +27,6 @@ SRCS		= ft_printf.c \
 			  ft_uitoa.c \
 			  ft_utils.c
 
-OBJS		= ${SRCS:.c=.o}
-
-DEPS		= ${SRCS:.c=.d}
-
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
@@ -42,7 +38,7 @@ RM			= rm -f
 all:		${NAME}
 
 %.o:		%.c
-				${CC} ${CFLAGS} -c $< -MMD
+				${CC} ${CFLAGS} -c $<
 
 ${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
 				cp ${LIBFT} libft/${NAME}
