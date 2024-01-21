@@ -12,12 +12,6 @@
 
 #include "ft_printf.h"
 
-int	ft_free_all(void *p)
-{
-	free(p);
-	return (-1);
-}
-
 unsigned int	ft_abs(int n)
 {
 	if (n < 0)

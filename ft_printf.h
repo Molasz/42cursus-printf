@@ -53,7 +53,6 @@ int				ft_puthex(unsigned long arg, t_flags *flags, int lower, int p);
 int				ft_putunsign(unsigned int arg, t_flags *flags);
 int				ft_putint(int arg, t_flags *flags);
 
-int				ft_free_all(void *p);
 unsigned int	ft_abs(int n);
 int				ft_putjustify(char c, int size);
 

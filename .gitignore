@@ -2,5 +2,6 @@
 *.o
 *.d
 *.out
-*.swp
 .DS_Store
+.test/
+.vscode/

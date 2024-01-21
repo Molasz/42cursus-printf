@@ -63,6 +63,10 @@ int	ft_putstr(char *arg, t_flags *flags)
 		res = ft_substr(res, 0, flags->precision);
 		if (!res)
 			return (-1);
+		if (arg)
+			len = flags->precision;
+		else
+			len = 0;
 	}
 	if (flags->len >= len)
 		write_len = ft_putstr_justify(res, flags, len);

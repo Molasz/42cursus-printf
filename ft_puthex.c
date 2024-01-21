@@ -12,123 +12,108 @@
 
 #include "ft_printf.h"
 
-static int	ft_puthex_pre(int lower)
+static int	ft_puthex_pre(int prefix, int lower)
 {
-	if (lower)
-		return (write(1, "0x", 2));
-	else
-		return (write(1, "0X", 2));
+	if (prefix)
+	{
+		if (lower)
+			return (write(1, "0x", 2));
+		else
+			return (write(1, "0X", 2));
+	}
+	return (0);
 }
 
 static int	ft_puthex_precision(char *hex, t_flags *flags, int pre, int lower)
 {
-	int		write_len;
 	int		sign_len;
 	size_t	len;
 
-	sign_len = 0;
-	write_len = 0;
 	len = ft_strlen(hex);
+	sign_len = 0;
+	if (pre)
+		sign_len = 2;
 	if (flags->justify == '0')
 	{
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		write_len = ft_putjustify('0', flags->precision - len);
-		if (write_len < 0)
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (-1);
 		if (flags->len > flags->precision)
-			write_len = ft_putjustify('0', flags->len - flags->precision);
-		if (write_len < 0)
+		{
+			if (ft_putjustify('0', flags->len - flags->precision) < 0)
+				return (-1);
+		}
+		if(write(1, hex, len) < 0)
 			return (-1);
-		write_len = write(1, hex, len);
 	}
 	else if (flags->justify == '-')
 	{
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		write_len = ft_putjustify('0', flags->precision - len);
-		if (write_len < 0)
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (-1);
-		write_len = write(1, hex, len);
-		if (write_len < 0)
+		if(write(1, hex, len) < 0)
 			return (-1);
 		if (flags->len > flags->precision)
-			write_len = ft_putjustify(' ', flags->len - flags->precision);
+		{
+			if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+				return (-1);
+		}
 	}
 	else
 	{
 		if (flags->len > flags->precision)
-			write_len = ft_putjustify(' ', flags->len - flags->precision);
-		if (write_len < 0)
+		{
+			if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+				return (-1);
+		}
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (-1);
-		write_len = ft_putjustify('0', flags->precision - len);
-		if (write_len < 0)
+		if(write(1, hex, len) < 0)
 			return (-1);
-		write_len = write(1, hex, len);
 	}
-	if (write_len < 0)
-		return (-1);
-	if (pre)
-		sign_len = 2;
 	if (flags->len + sign_len > flags->precision)
 		return (flags->len + sign_len);
-	return (len + flags->precision);
+	return (flags->precision + len);
 }
 
 static int	ft_puthex_justify(char *hex, t_flags *flags, int pre, int lower)
 {
-	int		write_len;
 	size_t	len;
 
-	write_len = 0;
 	len = ft_strlen(hex);
 	if (flags->justify == '0')
 	{
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		write_len = ft_putjustify('0', flags->len - len);
-		if (write_len < 0)
+		if (ft_putjustify('0', flags->len - len) < 0)
 			return (-1);
-		write_len = write(1, hex, len);
+		if (write(1, hex, len) < 0)
+			return (-1);
 	}
 	else if (flags->justify == '-')
 	{
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		write_len = write(1, hex, len);
-		if (write_len < 0)
+		if (write(1, hex, len) < 0)
 			return (-1);
-		write_len = ft_putjustify(' ', flags->len - len);
+		if (ft_putjustify(' ', flags->len - len) < 0)
+			return (-1);
 	}
 	else
 	{
-		write_len = ft_putjustify(' ', flags->len - len);
-		if (write_len < 0)
+		if (ft_putjustify(' ', flags->len - len) < 0)
 			return (-1);
-		if (pre)
-			write_len = ft_puthex_pre(lower);
-		if (write_len < 0)
+		if (ft_puthex_pre(pre, lower) < 0)
 			return (-1);
-		if (pre)
-			flags->len++;
-		write_len = write(1, hex, len);
+		if (write(1, hex, len) < 0)
+			return (-1);
 	}
-	if (write_len < 0)
-		return (-1);
 	if (pre)
-		flags->len += 1;
+		flags->len += 2;
 	return (flags->len);
 }
 
@@ -137,24 +122,23 @@ int	ft_puthex(unsigned long arg, t_flags *flags, int lower, int p)
 	char	*hex;
 	size_t	len;
 	int		write_len;
+	int		prefix;
 
 	hex = ft_strhex(arg, lower);
 	if (!hex)
 		return (-1);
 	len = ft_strlen(hex);
 	write_len = 0;
-	if (flags->len && ((flags->prefix && arg) || p))
+	prefix = (flags->prefix && arg) || p;
+	if (flags->len && prefix)
 		flags->len -= 2;
 	if (flags->precision > len)
-		write_len = ft_puthex_precision(hex, flags,
-				(flags->prefix && arg) || p, lower);
+		write_len = ft_puthex_precision(hex, flags, prefix, lower);
 	else if (flags->len > len)
-		write_len = ft_puthex_justify(hex, flags,
-				(flags->prefix && arg) || p, lower);
+		write_len = ft_puthex_justify(hex, flags, prefix, lower);
 	else
 	{
-		if ((flags->prefix && arg) || p)
-			write_len = ft_puthex_pre(lower);
+		write_len = ft_puthex_pre(prefix, lower);
 		if (write_len < 0)
 		{
 			free(hex);
@@ -163,7 +147,7 @@ int	ft_puthex(unsigned long arg, t_flags *flags, int lower, int p)
 		write_len = write(1, hex, ft_strlen(hex));
 		if (write_len < 0)
 			return (-1);
-		if ((flags->prefix && arg) || p)
+		if (prefix)
 			write_len += 2;
 	}
 	free(hex);
