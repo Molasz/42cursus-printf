@@ -25,12 +25,14 @@ static int	hexlen(unsigned long n)
 	return (i);
 }
 
-static char	*strhex(unsigned long n, char *base)
+static char	*strhex(unsigned long n, char *base, t_flags *flags)
 {
 	char	*s;
 	int		len;
 
 	len = hexlen(n);
+	if (!n && flags->has_precision)
+		len = 0;
 	s = ft_calloc(sizeof (char), len + 1);
 	if (!s)
 		return (NULL);
@@ -43,13 +45,13 @@ static char	*strhex(unsigned long n, char *base)
 	return (s);
 }
 
-char	*ft_strhex(unsigned long nb, int lower)
+char	*ft_strhex(unsigned long nb, int lower, t_flags *flags)
 {
 	char	*s;
 
 	if (lower)
-		s = strhex(nb, "0123456789abcdef");
+		s = strhex(nb, "0123456789abcdef", flags);
 	else
-		s = strhex(nb, "0123456789ABCDEF");
+		s = strhex(nb, "0123456789ABCDEF", flags);
 	return (s);
 }

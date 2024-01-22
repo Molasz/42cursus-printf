@@ -53,7 +53,7 @@ int				ft_puthex_precision(char *hex, t_flags *flags,
 					int pre, int lower);
 int				ft_puthex_justify(char *hex, t_flags *flags,
 					int pre, int lower);
-char			*ft_strhex(unsigned long n, int lower);
+char			*ft_strhex(unsigned long n, int lower, t_flags *flags);
 int				ft_puthex_pre(int prefix, int lower);
 
 int				ft_putunsign(unsigned int arg, t_flags *flags);

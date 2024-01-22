@@ -16,11 +16,10 @@ static int	ft_putint_prec_zero(char *num, t_flags *flags, int n, size_t len)
 {
 	int	space_len;
 
+	space_len = flags->len - len;
 	if (flags->precision > len)
 		space_len = flags->len - flags->precision;
-	else
-		space_len = flags->len - len;
-	if (flags->len > flags->precision)
+	if (flags->len > flags->precision && space_len > 0)
 	{
 		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
@@ -41,10 +40,9 @@ static int	ft_putint_prec_left(char *num, t_flags *flags, int n, size_t len)
 {
 	int	space_len;
 
+	space_len = flags->len - len;
 	if (flags->precision > len)
 		space_len = flags->len - flags->precision;
-	else
-		space_len = flags->len - len;
 	if (ft_putint_pre(n, flags->sign) < 0)
 		return (1);
 	if (flags->precision > len)
@@ -54,7 +52,7 @@ static int	ft_putint_prec_left(char *num, t_flags *flags, int n, size_t len)
 	}
 	if (write(1, num, len) < 0)
 		return (1);
-	if (flags->len > flags->precision)
+	if (flags->len > flags->precision && space_len > 0)
 	{
 		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
@@ -66,11 +64,10 @@ static int	ft_putint_prec_normal(char *num, t_flags *flags, int n, size_t len)
 {
 	int	space_len;
 
+	space_len = flags->len - len;
 	if (flags->precision > len)
 		space_len = flags->len - flags->precision;
-	else
-		space_len = flags->len - len;
-	if (flags->len > flags->precision)
+	if (flags->len > flags->precision && space_len > 0)
 	{
 		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
@@ -103,9 +100,10 @@ int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 		error = ft_putint_prec_normal(num, flags, n, len);
 	if (error)
 		return (-1);
-	if (flags->len + sign_len > flags->precision)
+	if (flags->len > 0 && len > flags->len)
+		return (len + sign_len);
+	else if (flags->len + sign_len > flags->precision)
 		return (flags->len + sign_len);
-	else if (flags->precision > len)
+	else
 		return (flags->precision + sign_len);
-	return (len + sign_len);
 }

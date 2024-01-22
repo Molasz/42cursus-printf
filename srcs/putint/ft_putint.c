@@ -53,7 +53,7 @@ int	ft_putint(int arg, t_flags *flags)
 	if (flags->len && (arg < 0 || flags->sign))
 		flags->len--;
 	write_len = 0;
-	if (flags->precision > 0)
+	if (flags->has_precision)
 		write_len = ft_putint_precision(num, flags, arg, len);
 	else if (flags-> len > len)
 		write_len = ft_putint_justify(num, flags, arg, len);

@@ -271,6 +271,12 @@ int	main(void)
 	ft_printp("%.12X", UINT_MAX);
 	ft_printp("%.13X", ULONG_MAX);
 	ft_printp("%.14X", 9223372036854775807LL);
-
+	ft_printi("%8.4d", 424242424);
+	ft_printi("%8.4d", -424242424);
+	ft_printi("%8.4u", 424242424);
+	ft_printp("%1p", &num);
+	ft_printp("%1p", &num);
+	ft_printp("%1.x", 238);
+	ft_printp("%1.X", 0xee);
 	return (0);
 }

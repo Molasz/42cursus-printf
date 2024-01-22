@@ -14,14 +14,19 @@
 
 static int	ft_putunsign_precision_zero(char *arg, t_flags *flags, size_t len)
 {
+	int	space_len;
+
+	space_len = flags->len - len;
 	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
+	if (flags->len > flags->precision && space_len > 0)
 	{
-		if (ft_putjustify(' ', flags->precision - len) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
 	}
-	if (flags->len > flags->precision)
+	if (flags->precision > len)
 	{
-		if (ft_putjustify('0', flags->len - flags->precision) < 0)
+		if (ft_putjustify('0', flags->precision - len) < 0)
 			return (1);
 	}
 	if (write(1, arg, len) < 0)
@@ -31,6 +36,11 @@ static int	ft_putunsign_precision_zero(char *arg, t_flags *flags, size_t len)
 
 static int	ft_putunsign_precision_left(char *arg, t_flags *flags, size_t len)
 {
+	int	space_len;
+
+	space_len = flags->len - len;
+	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
 	if (flags->precision > len)
 	{
 		if (ft_putjustify('0', flags->precision - len) < 0)
@@ -38,9 +48,9 @@ static int	ft_putunsign_precision_left(char *arg, t_flags *flags, size_t len)
 	}
 	if (write(1, arg, len) < 0)
 		return (1);
-	if (flags->len > flags->precision)
+	if (flags->len > flags->precision && space_len > 0)
 	{
-		if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
 	}
 	return (0);
@@ -48,9 +58,14 @@ static int	ft_putunsign_precision_left(char *arg, t_flags *flags, size_t len)
 
 static int	ft_putunsign_precision_normal(char *arg, t_flags *flags, size_t len)
 {
-	if (flags->len > flags->precision)
+	int	space_len;
+
+	space_len = flags->len - len;
+	if (flags->precision > len)
+		space_len = flags->len - flags->precision;
+	if (flags->len > flags->precision && space_len > 0)
 	{
-		if (ft_putjustify(' ', flags->len - flags->precision) < 0)
+		if (ft_putjustify(' ', space_len) < 0)
 			return (1);
 	}
 	if (flags->precision > len)
@@ -77,9 +92,10 @@ int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
 	}
 	else if (ft_putunsign_precision_normal(arg, flags, len))
 		return (-1);
-	if (flags->len > flags->precision)
+	if (flags->len > 0 && len > flags->len)
+		return (len);
+	else if (flags->len > flags->precision)
 		return (flags->len);
-	else if (flags->precision > len)
+	else
 		return (flags->precision);
-	return (len);
 }
