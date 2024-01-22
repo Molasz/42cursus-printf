@@ -12,35 +12,31 @@
 
 #include "../../ft_printf.h"
 
-static int	ft_putstr_prec(char *arg, char *res, t_flags *flags, size_t *len)
+static char	*ft_putstr_prec(char *arg, char *res, t_flags *flags, size_t *len)
 {
 	char	*str;
 
-	if (flags->has_precision && flags->precision <= *len)
-	{
-		str = ft_substr(res, 0, flags->precision);
-		if (!arg)
-			free(res);
-		if (!str)
-			return (1);
-		*len = flags->precision;
-		res = str; //NOT SET ???
-	}
-	return (0);
+	str = ft_substr(res, 0, flags->precision);
+	if (!arg)
+		free(res);
+	if (!str)
+		return (NULL);
+	*len = flags->precision;
+	return (str);
 }
 
-static int	ft_putstr_justify(char *arg, t_flags *flags, size_t len)
+static int	ft_putstr_justify(char *res, t_flags *flags, size_t len)
 {
 	if (flags->justify == '0')
 	{
 		if (ft_putjustify('0', flags->len - len) < 0)
 			return (-1);
-		if (write(1, arg, len) < 0)
+		if (write(1, res, len) < 0)
 			return (-1);
 	}
 	if (flags->justify == '-')
 	{
-		if (write(1, arg, len) < 0)
+		if (write(1, res, len) < 0)
 			return (-1);
 		if (ft_putjustify(' ', flags->len - len) < 0)
 			return (-1);
@@ -49,17 +45,29 @@ static int	ft_putstr_justify(char *arg, t_flags *flags, size_t len)
 	{
 		if (ft_putjustify(' ', flags->len - len) < 0)
 			return (-1);
-		if (write(1, arg, len) < 0)
+		if (write(1, res, len) < 0)
 			return (-1);
 	}
 	return (flags->len);
 }
 
+int	ft_writestr(char *str, t_flags *flags, size_t len)
+{
+	int	write_len;
+
+	write_len = 0;
+	if (flags->len > len)
+		write_len = ft_putstr_justify(str, flags, len);
+	else
+		write_len = write(1, str, len);
+	return (write_len);
+}
+
 int	ft_putstr(char *arg, t_flags *flags)
 {
+	int		write_len;
 	char	*res;
 	size_t	len;
-	int		write_len;
 
 	res = arg;
 	if (!arg)
@@ -69,14 +77,14 @@ int	ft_putstr(char *arg, t_flags *flags)
 			return (-1);
 	}
 	len = ft_strlen(res);
-	if (ft_putstr_prec(arg, res, flags, &len))
-		return (-1);
-	if (flags->len > len)
-		write_len = ft_putstr_justify(res, flags, len);
-	else
-		write_len = write(1, res, len);
-	printf("%ld %ld\n", len, flags->precision);
-	if (flags->has_precision && flags->precision == len)
+	if (flags->has_precision && flags->precision <= len)
+	{
+		res = ft_putstr_prec(arg, res, flags, &len);
+		if (!res)
+			return (-1);
+	}
+	write_len = ft_writestr(res, flags, len);
+	if ((flags->has_precision && flags->precision == len) || !arg)
 		free(res);
 	return (write_len);
 }
