@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 01:22:45 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/21 01:22:56 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/22 10:29:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 static int	ft_putstr_prec(char *arg, char *res, t_flags *flags, size_t *len)
 {
-	if (flags->has_precision && flags->precision < *len)
+	char	*str;
+
+	if (flags->has_precision && flags->precision <= *len)
 	{
-		if (res != arg)
+		str = ft_substr(res, 0, flags->precision);
+		if (!arg)
 			free(res);
-		res = ft_substr(res, 0, flags->precision);
-		if (!res)
+		if (!str)
 			return (1);
 		*len = flags->precision;
-		if (!arg)
-			*len = 0;
+		res = str; //NOT SET ???
 	}
 	return (0);
 }
@@ -69,16 +70,13 @@ int	ft_putstr(char *arg, t_flags *flags)
 	}
 	len = ft_strlen(res);
 	if (ft_putstr_prec(arg, res, flags, &len))
-	{
-		if (res != arg)
-			free(res);
 		return (-1);
-	}
 	if (flags->len > len)
 		write_len = ft_putstr_justify(res, flags, len);
 	else
 		write_len = write(1, res, len);
-	if (res != arg)
+	printf("%ld %ld\n", len, flags->precision);
+	if (flags->has_precision && flags->precision == len)
 		free(res);
 	return (write_len);
 }

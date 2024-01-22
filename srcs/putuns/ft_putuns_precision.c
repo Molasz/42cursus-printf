@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putuns_precision.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:15:10 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/21 20:15:14 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:41:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
 		return (len);
 	else if (flags->len > flags->precision)
 		return (flags->len);
-	else
+	else if (flags->precision > len)
 		return (flags->precision);
+	return (len);
 }

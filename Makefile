@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/20 16:23:43 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/22 09:30:26 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,16 +16,35 @@ HEAD		= ft_printf.h
 
 LIBFT		= libft/libft.a
 
-SRCS		= ft_printf.c \
-			  ft_checks.c \
-			  ft_putchr.c \
-			  ft_puthex.c \
-			  ft_putint.c \
-			  ft_putstr.c \
-			  ft_putunsign.c \
-			  ft_strhex.c \
-			  ft_uitoa.c \
-			  ft_utils.c
+SRCS		= srcs/ft_printf.c \
+				srcs/ft_checks.c \
+				srcs/ft_utils.c \
+				srcs/putchr/ft_putchr.c \
+				srcs/puthex/ft_puthex.c \
+				srcs/puthex/ft_puthex_justify.c \
+				srcs/puthex/ft_puthex_precision.c \
+				srcs/puthex/ft_strhex.c \
+				srcs/putint/ft_putint.c \
+				srcs/putint/ft_putint_justify.c \
+				srcs/putint/ft_putint_precision.c \
+				srcs/putstr/ft_putstr.c \
+				srcs/putuns/ft_putuns.c \
+				srcs/putuns/ft_putuns_precision.c
+
+OBJS		= ft_printf.o \
+				ft_checks.o \
+				ft_utils.o \
+				ft_putchr.o \
+				ft_puthex.o \
+				ft_puthex_justify.o \
+				ft_puthex_precision.o \
+				ft_strhex.o \
+				ft_putint.o \
+				ft_putint_justify.o \
+				ft_putint_precision.o \
+				ft_putstr.o \
+				ft_putuns.o \
+				ft_putuns_precision.o
 
 CC			= cc
 
@@ -37,7 +56,10 @@ RM			= rm -f
 
 all:		${NAME}
 
-%.o:		%.c
+%.o:		srcs/%.c
+				${CC} ${CFLAGS} -c $<
+
+%.o:		srcs/*/%.c
 				${CC} ${CFLAGS} -c $<
 
 #${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
@@ -45,11 +67,10 @@ all:		${NAME}
 #				mv libft/${NAME} ${NAME}
 #				${AR} ${NAME} ${OBJS}
 
-${NAME}:	${LIBFT} ${HEAD} Makefile
+${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
 				cp ${LIBFT} libft/${NAME}
 				mv libft/${NAME} ${NAME}
-				cc -c srcs/*.c srcs/*/*.c
-				${AR} ${NAME} *.o
+				${AR} ${NAME} ${OBJS}
 
 ${LIBFT}:
 				make -C libft

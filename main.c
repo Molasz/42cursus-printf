@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/20 16:32:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:47:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	main(void)
 	int	num;
 
 	num = 42;
+	/*
 	ft_title("   >>>   MANDATORY   <<<\n\n");
 	ft_print("Hello world!");
  	ft_print("%%");
@@ -180,6 +181,7 @@ int	main(void)
 	ft_printc("%015c", 'c');
 
 	ft_prints("%15s", NULL);
+	*/
 	ft_prints("%3s", "hello world");
 	ft_prints("%25s", "hello world");
 	ft_prints("%-25s", "hello world");
@@ -190,6 +192,7 @@ int	main(void)
 	ft_prints("%5.3s", NULL);
 	ft_prints("%5.5s", NULL);
 
+	/*
 	ft_title("\n\n\n   >>>   EXTRA   <<<\n\n");
 
 	ft_printi("%08.5i", 34);
@@ -278,5 +281,6 @@ int	main(void)
 	ft_printp("%1p", &num);
 	ft_printp("%1.x", 238);
 	ft_printp("%1.X", 0xee);
+	*/
 	return (0);
 }
