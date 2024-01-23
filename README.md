@@ -12,7 +12,7 @@
 ## BONUS
 ### - Left justify
 ### 0 Justify with 0
-### . Min number of digits printed
+### . Str Max len, Digit min digits
 ### # xX prefix 0x add to non 0 values
 ### Space on positives
 ### + on positives

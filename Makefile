@@ -6,11 +6,17 @@
 #    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/23 21:11:39 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/24 00:34:05 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= libftprintf.a
+
+LIBFT		= libft.a
+
+LIBDIR		= libft
+
+INC			= -I inc/
 
 SRCS		= ft_printf.c \
 				ft_checks.c \
@@ -27,17 +33,15 @@ SRCS		= ft_printf.c \
 				ft_putuns.c \
 				ft_putuns_precision.c
 
-LIBFT		= libft/libft.a
+OBJS		= ${addprefix ${ODIR}, $(SRCS:.c=.o)}
 
-DIR			= obj/
+SDIR		= src/
 
-OBJS	= ${addprefix ${DIR}, $(SRCS:.c=.o)}
+ODIR		= obj/
 
-DEPS	= ${addprefix ${DIR}, $(SRCS:.c=.d)}
+DEPS		= ${addprefix ${ODIR}, $(SRCS:.c=.d)}
 
-CC			= cc
-
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -MMD
 
 AR			= ar rcs
 
@@ -46,25 +50,26 @@ RM			= rm -rf
 all:		dir ${NAME}
 
 dir:
-				mkdir -p ${DIR}
 				make -C libft
+				mkdir -p ${ODIR}
 
-obj/%.o:	srcs/%.c Makefile ${LIBFT}
-				${CC} ${CFLAGS} -MMD -c $< -o $@
+obj/%.o:	src/%.c Makefile
+				${CC} ${CFLAGS} -c $< -o $@ ${INC}
 
 ${NAME}:	${OBJS}
-				cp ${LIBFT} libft/${NAME}
-				mv libft/${NAME} ${NAME}
+				cp ${LIBDIR}/${LIBFT} ${LIBDIR}/${NAME}
+				mv ${LIBDIR}/${NAME} ${NAME}
 				${AR} ${NAME} ${OBJS}
 
 bonus:		all
 
 clean:
-			make -C libft clean
-			${RM} ${DIR}
+				make -C libft clean
+				${RM} ${ODIR}
 
-fclean:		clean
+fclean:		
 				make -C libft fclean
+				${RM} ${ODIR}
 				${RM} ${NAME}
 
 re:			fclean all
