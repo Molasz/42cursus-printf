@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putuns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 02:58:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/21 02:58:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:45:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,5 @@ int	ft_putunsign(unsigned int arg, t_flags *flags)
 	else
 		write_len = write(1, num, len);
 	free(num);
-	if (write_len < 0)
-		return (-1);
 	return (write_len);
 }

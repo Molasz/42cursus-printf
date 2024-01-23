@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 01:23:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/21 01:24:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:02:42 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ static int	ft_puthex_check(char *hex, t_flags *flags,
 	size_t	len;
 
 	len = ft_strlen(hex);
+	write_len = 0;
 	if (flags->has_precision)
 		write_len = ft_puthex_precision(hex, flags, pre, lower);
 	else if (flags->len > len)
 		write_len = ft_puthex_justify(hex, flags, pre, lower);
 	else
 	{
-		if (ft_puthex_normal(hex, pre, lower) < 0)
+		if (ft_puthex_normal(hex, pre, lower))
 			return (-1);
 		if (pre)
 			return (len + 2);
@@ -63,15 +64,13 @@ int	ft_puthex(unsigned long arg, t_flags *flags, int lower, int p)
 	size_t	len;
 
 	hex = ft_strhex(arg, lower, flags);
-	len = ft_strlen(hex);
 	if (!hex)
 		return (-1);
+	len = ft_strlen(hex);
 	prefix = (flags->prefix && arg) || p;
 	if (flags->len > len && prefix)
 		flags->len -= 2;
 	write_len = ft_puthex_check(hex, flags, prefix, lower);
 	free(hex);
-	if (write_len < 0)
-		return (-1);
 	return (write_len);
 }

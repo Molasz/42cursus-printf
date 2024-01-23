@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:59:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/20 20:11:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:02:38 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static int	ft_putint_normal(char *num, t_flags *flags, int arg, size_t len)
 	if (arg < 0 || flags->sign)
 		sign = 1;
 	if (ft_putint_pre(arg, flags->sign) < 0)
-	{
-		free(num);
 		return (-1);
-	}
 	if (write(1, num, len) < 0)
 		return (-1);
 	return (len + sign);
@@ -60,7 +57,5 @@ int	ft_putint(int arg, t_flags *flags)
 	else
 		write_len = ft_putint_normal(num, flags, arg, len);
 	free(num);
-	if (write_len < 0)
-		return (-1);
 	return (write_len);
 }
