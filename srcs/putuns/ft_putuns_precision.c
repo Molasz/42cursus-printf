@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:15:10 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/22 09:41:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:30:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,10 @@ int	ft_putunsign_precision(char *arg, t_flags *flags, size_t len)
 	}
 	else if (ft_putunsign_precision_normal(arg, flags, len))
 		return (-1);
-	if (flags->len > 0 && len > flags->len)
+	if (flags->len < len && flags->precision < len)
 		return (len);
-	else if (flags->len > flags->precision)
-		return (flags->len);
-	else if (flags->precision > len)
+	if (flags->precision > flags->len)
 		return (flags->precision);
-	return (len);
+	else
+		return (flags->len);
 }

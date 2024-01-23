@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/22 09:47:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:36:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,5 +278,11 @@ int	main(void)
 	ft_printp("%1p", &num);
 	ft_printp("%1.x", 238);
 	ft_printp("%1.X", 0xee);
+
+	ft_printp("%1.X", 0xee);
+	ft_printi("%8.52d", -33304973);
+	ft_printi("%+3.2d", 415243590);
+	ft_printp("%#11.2x", -1157673274);
+	ft_printp("%0#40.37x", 922358336);
 	return (0);
 }

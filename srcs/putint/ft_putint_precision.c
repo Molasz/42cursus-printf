@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:07:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/22 09:40:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:34:07 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,10 @@ int	ft_putint_precision(char *num, t_flags *flags, int n, size_t len)
 		error = ft_putint_prec_normal(num, flags, n, len);
 	if (error)
 		return (-1);
-	if (flags->len > 0 && len > flags->len)
+	if (flags->len < len + sign_len && flags->precision < len)
 		return (len + sign_len);
-	else if (flags->len + sign_len > flags->precision)
-		return (flags->len + sign_len);
-	else if (flags->precision > len)
+	if (flags->precision + sign_len > flags->len)
 		return (flags->precision + sign_len);
-	return (len + sign_len);
+	else
+		return (flags->len + sign_len);
 }

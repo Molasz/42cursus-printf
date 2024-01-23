@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 01:26:04 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/22 09:41:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:37:39 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,10 @@ int	ft_puthex_precision(char *hex, t_flags *flags, int pre, int lower)
 		error = ft_puthex_prec_space(hex, flags, pre, lower);
 	if (error)
 		return (-1);
-	if (flags->len > 0 && len > flags->len)
+	if (flags->len < len && flags->precision < len)
 		return (len + sign_len);
-	else if (flags->len + sign_len > flags->precision)
-		return (flags->len + sign_len);
-	else if (flags->precision > len)
+	if (flags->precision > flags->len)
 		return (flags->precision + sign_len);
-	return (len + sign_len);
+	else
+		return (flags->len + sign_len);
 }
