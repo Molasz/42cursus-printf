@@ -6,11 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 02:58:29 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/23 14:45:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:13:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../ft_printf.h"
+#include "../ft_printf.h"
 
 static int	ft_putunsign_justify(char *arg, t_flags *flags, size_t len)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putint_justify.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:07:46 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/21 17:07:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:13:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../ft_printf.h"
+#include "../ft_printf.h"
 
 int	ft_putint_just_zero(char *num, t_flags *flags, int n, size_t len)
 {

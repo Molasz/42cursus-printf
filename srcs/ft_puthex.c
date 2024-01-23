@@ -6,11 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 01:23:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/23 15:02:42 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:13:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../ft_printf.h"
+#include "../ft_printf.h"
 
 int	ft_puthex_pre(int prefix, int lower)
 {

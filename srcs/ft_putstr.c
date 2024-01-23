@@ -6,11 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 01:22:45 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/22 10:29:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:13:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../ft_printf.h"
+#include "../ft_printf.h"
 
 static char	*ft_putstr_prec(char *arg, char *res, t_flags *flags, size_t *len)
 {

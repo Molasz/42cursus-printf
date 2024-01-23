@@ -6,45 +6,34 @@
 #    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/22 09:30:26 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/23 21:11:39 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= libftprintf.a
 
-HEAD		= ft_printf.h
+SRCS		= ft_printf.c \
+				ft_checks.c \
+				ft_utils.c \
+				ft_putchr.c \
+				ft_puthex.c \
+				ft_puthex_justify.c \
+				ft_puthex_precision.c \
+				ft_strhex.c \
+				ft_putint.c \
+				ft_putint_justify.c \
+				ft_putint_precision.c \
+				ft_putstr.c \
+				ft_putuns.c \
+				ft_putuns_precision.c
 
 LIBFT		= libft/libft.a
 
-SRCS		= srcs/ft_printf.c \
-				srcs/ft_checks.c \
-				srcs/ft_utils.c \
-				srcs/putchr/ft_putchr.c \
-				srcs/puthex/ft_puthex.c \
-				srcs/puthex/ft_puthex_justify.c \
-				srcs/puthex/ft_puthex_precision.c \
-				srcs/puthex/ft_strhex.c \
-				srcs/putint/ft_putint.c \
-				srcs/putint/ft_putint_justify.c \
-				srcs/putint/ft_putint_precision.c \
-				srcs/putstr/ft_putstr.c \
-				srcs/putuns/ft_putuns.c \
-				srcs/putuns/ft_putuns_precision.c
+DIR			= obj/
 
-OBJS		= ft_printf.o \
-				ft_checks.o \
-				ft_utils.o \
-				ft_putchr.o \
-				ft_puthex.o \
-				ft_puthex_justify.o \
-				ft_puthex_precision.o \
-				ft_strhex.o \
-				ft_putint.o \
-				ft_putint_justify.o \
-				ft_putint_precision.o \
-				ft_putstr.o \
-				ft_putuns.o \
-				ft_putuns_precision.o
+OBJS	= ${addprefix ${DIR}, $(SRCS:.c=.o)}
+
+DEPS	= ${addprefix ${DIR}, $(SRCS:.c=.d)}
 
 CC			= cc
 
@@ -52,42 +41,34 @@ CFLAGS		= -Wall -Wextra -Werror
 
 AR			= ar rcs
 
-RM			= rm -f
+RM			= rm -rf
 
-all:		${NAME}
+all:		dir ${NAME}
 
-%.o:		srcs/%.c
-				${CC} ${CFLAGS} -c $<
+dir:
+				mkdir -p ${DIR}
+				make -C libft
 
-%.o:		srcs/*/%.c
-				${CC} ${CFLAGS} -c $<
+obj/%.o:	srcs/%.c Makefile ${LIBFT}
+				${CC} ${CFLAGS} -MMD -c $< -o $@
 
-#${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
-#				cp ${LIBFT} libft/${NAME}
-#				mv libft/${NAME} ${NAME}
-#				${AR} ${NAME} ${OBJS}
-
-${NAME}:	${LIBFT} ${OBJS} ${HEAD} Makefile
+${NAME}:	${OBJS}
 				cp ${LIBFT} libft/${NAME}
 				mv libft/${NAME} ${NAME}
 				${AR} ${NAME} ${OBJS}
 
-${LIBFT}:
-				make -C libft
-
-bonus:		${NAME}
+bonus:		all
 
 clean:
 			make -C libft clean
-				${RM} ${OBJS} ${DEPS} *.o
+			${RM} ${DIR}
 
 fclean:		clean
-				${RM} ${TEST}
-				${RM} ${LIBFT}
+				make -C libft fclean
 				${RM} ${NAME}
 
 re:			fclean all
 
 -include ${DEPS}
 
-.PHONY:		clean fclean re all
+.PHONY:		clean fclean re all dir
