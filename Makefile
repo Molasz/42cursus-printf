@@ -6,7 +6,7 @@
 #    By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 15:56:25 by molasz-a          #+#    #+#              #
-#    Updated: 2024/01/24 00:34:05 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/01/24 00:37:35 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,6 @@ NAME		= libftprintf.a
 LIBFT		= libft.a
 
 LIBDIR		= libft
-
-INC			= -I inc/
 
 SRCS		= ft_printf.c \
 				ft_checks.c \
@@ -54,7 +52,7 @@ dir:
 				mkdir -p ${ODIR}
 
 obj/%.o:	src/%.c Makefile
-				${CC} ${CFLAGS} -c $< -o $@ ${INC}
+				${CC} ${CFLAGS} -c $< -o $@ 
 
 ${NAME}:	${OBJS}
 				cp ${LIBDIR}/${LIBFT} ${LIBDIR}/${NAME}
