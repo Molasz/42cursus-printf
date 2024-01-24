@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:30:54 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/01/23 13:36:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:33:26 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ int	main(void)
 
 	ft_printc("%5c", 'A');
 	ft_printc("%3c", 0);
-	ft_printc("%015c", 'c');
 
 	ft_prints("%15s", NULL);
 	ft_prints("%3s", "hello world");
